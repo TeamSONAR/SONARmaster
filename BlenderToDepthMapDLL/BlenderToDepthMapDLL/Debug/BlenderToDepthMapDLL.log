@@ -1,0 +1,6 @@
+﻿  stdafx.cpp
+  BlenderToDepthMapDLL.cpp
+  dllmain.cpp
+     Creating library F:\seniorproject\Visual Studio\SONARBackEnd\Debug\BlenderToDepthMapDLL.lib and object F:\seniorproject\Visual Studio\SONARBackEnd\Debug\BlenderToDepthMapDLL.exp
+  BlenderToDepthMapDLL.vcxproj -> F:\seniorproject\Visual Studio\SONARBackEnd\Debug\BlenderToDepthMapDLL.dll
+  BlenderToDepthMapDLL.vcxproj -> F:\seniorproject\Visual Studio\SONARBackEnd\Debug\BlenderToDepthMapDLL.pdb (Full PDB)

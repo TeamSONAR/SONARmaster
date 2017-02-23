@@ -1,0 +1,3 @@
+﻿  stdafx.cpp
+  SONARBackEnd.cpp
+LINK : fatal error LNK1104: cannot open file 'opencv_calib3d2413d.lib'
