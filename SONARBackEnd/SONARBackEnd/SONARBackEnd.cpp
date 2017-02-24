@@ -248,7 +248,7 @@ int main()
 			pointdist = planes[1].at<ushort>(Point(sourceMatCoords[i][1], sourceMatCoords[i][0]));
 			
 			pointdistnorm = float(pointdist) / 65535;
-			rectangle(planes[1], Point(sourceMatCoords[i][1], sourceMatCoords[i][0]), Point(sourceMatCoords[i][1] + 3, sourceMatCoords[i][0] + 3), Scalar(255));
+			rectangle(planes[0], Point(sourceMatCoords[i][1], sourceMatCoords[i][0]), Point(sourceMatCoords[i][1] + 3, sourceMatCoords[i][0] + 3), Scalar(255));
 
 			//printf("%2.2f ", pointdistnorm);
 			
@@ -261,10 +261,8 @@ int main()
 			alSourcef(srclist[i], AL_GAIN, exp(6.908*(1-pointdistnorm))/2000);
 		}
 		//End openAL stuff-------------------------------------------
-		//printf("\n");
 
 		imshow("Display window", planes[0]);
-	                                          // Wait for a keystroke in the window
 	}
 	UnmapDepthBufFile(PointerToBuf);
 

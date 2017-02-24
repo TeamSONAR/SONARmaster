@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <!--Lazy OpenCV property sheet template for OpenCV built from source-->
+    <!--Calum Blair-->
+    <!--March 2013-->
+	<!--Version 1.0-->
+    <!--See guide at http://home.eps.hw.ac.uk/~cgb7/opencv/ -->
+	<!--props to this guy: http://stackoverflow.com/questions/3502530/ -->
+	<!--This relies on the %OpenCV_DIR% environment variable being set-->
+	<!--and the OpenCV DLLS being present in the system path-->	
+	<!--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+	<!--set opencv version here-->
+    <OpenCvVersion>2413</OpenCvVersion>
+    <!--set Boost version here if required-->
+    <BoostVersion>1_49</BoostVersion>
+    <!--debug suffix for opencv - dont change this-->
+    <DebugSuffix Condition="'$(Configuration)'=='Debug'">d</DebugSuffix>
+    <DebugSuffix Condition="'$(Configuration)'!='Debug'">
+    </DebugSuffix>
+    <!--debug suffix for Boost libraries - dont change this-->
+    <BoostDebugSuffix Condition="'$(Configuration)'=='Debug'">-gd</BoostDebugSuffix>
+    <BoostDebugSuffix Condition="'$(Configuration)'!='Debug'">
+    </BoostDebugSuffix>
+  </PropertyGroup>
+  <!--Contains definitions for OpenCV DLLs, Libraries and headers, Boost headers and libraries, and CUDA 5.0 headers and libraries-->
+  <PropertyGroup>
+    <ExecutablePath>$(OpenCV_DIR)\bin;$(NVTOOLSEXT_PATH)\bin\$(Platform);$(CUDA_PATH)\bin;$(ExecutablePath)</ExecutablePath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <IncludePath>$(OpenCV_DIR)\include;$(NVTOOLSEXT_PATH)\include;$(NVCUDASAMPLES_ROOT)\common\inc;$(CUDA_PATH)\include;$(boost_path);$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LibraryPath>$(OpenCV_DIR)\lib;$(boost_path)\lib;$(NVTOOLSEXT_PATH)\lib\$(Platform);$(CUDA_PATH)\lib\$(Platform);$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup />
+  <ItemDefinitionGroup Label="UserDefs" />
+  <!--set compute capability of your CUDA GPU here-->
+  <!--eg this compiles for CC1.2 and CC2.1(2.0) cards-->
+  <ItemDefinitionGroup>
+    <CudaCompile>
+      <PtxAsOptionV>false</PtxAsOptionV>
+      <CodeGeneration>compute_12,sm_12; compute_20,sm_21</CodeGeneration>
+    </CudaCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <Link>
+      <!--Set libraries to link against here. follow the format given for extra openCV or boost libraries-->
+	  <!-- add the following if using a GPU:
+	  opencv_gpu$(OpenCvVersion)$(DebugSuffix).lib;
+	  -->
+	  <!--also add cudart.lib and/or nvtoolsext32_1.lib if running your own CUDA code-->
+	  <!-- example boost libraries: (copy and paste below)
+	  libboost_filesystem-vc$(PlatformToolsetVersion)-mt$(BoostDebugSuffix)-$(BoostVersion).lib;
+libboost_exception-vc$(PlatformToolsetVersion)-mt$(BoostDebugSuffix)-$(BoostVersion).lib;
+libboost_system-vc$(PlatformToolsetVersion)-mt$(BoostDebugSuffix)-$(BoostVersion).lib;
+-->
+      <AdditionalDependencies>
+opencv_calib3d$(OpenCvVersion)$(DebugSuffix).lib;
+opencv_contrib$(OpenCvVersion)$(DebugSuffix).lib;
+opencv_core$(OpenCvVersion)$(DebugSuffix).lib;
+opencv_features2d$(OpenCvVersion)$(DebugSuffix).lib;
+opencv_flann$(OpenCvVersion)$(DebugSuffix).lib;
+opencv_highgui$(OpenCvVersion)$(DebugSuffix).lib;
+opencv_imgproc$(OpenCvVersion)$(DebugSuffix).lib;
+opencv_legacy$(OpenCvVersion)$(DebugSuffix).lib;
+opencv_ml$(OpenCvVersion)$(DebugSuffix).lib;
+opencv_nonfree$(OpenCvVersion)$(DebugSuffix).lib;
+opencv_objdetect$(OpenCvVersion)$(DebugSuffix).lib;
+opencv_photo$(OpenCvVersion)$(DebugSuffix).lib;
+opencv_stitching$(OpenCvVersion)$(DebugSuffix).lib;
+opencv_ts$(OpenCvVersion)$(DebugSuffix).lib;
+opencv_video$(OpenCvVersion)$(DebugSuffix).lib;
+opencv_videostab$(OpenCvVersion)$(DebugSuffix).lib;
+%(AdditionalDependencies)
+		</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup />
+</Project>
