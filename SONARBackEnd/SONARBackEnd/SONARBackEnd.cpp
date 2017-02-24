@@ -155,14 +155,17 @@ int main()
 
 	init_al();
 
-	ALuint buf[4];
-	alGenBuffers(4, buf);
+	ALuint buf[5];
+	alGenBuffers(5, buf);
 	al_check_error();
 
 	/* Fill buffer with Sine-Wave */
 	float freq = 180.f;
+
 	float seconds = 0.5; //was 0.25
-	float sintime = 2; // was 1
+	float starttime = 0.45; // was 1
+	float decaytime = seconds - starttime;
+
 	unsigned sample_rate = 22050;
 	size_t buf_size = seconds * sample_rate;
 
@@ -172,9 +175,13 @@ int main()
 		samples[i] = 0;
 	}
 
+	int start_point = ((buf_size*starttime) / seconds);
+	int pulselength = (decaytime * sample_rate);
+
+	//Set up the four frequencied buffers
 	for (int q = 0; q < 4; q++){
-		for (int i = 0; i<(buf_size / sintime); ++i) {
-			samples[i] = (16380 * ((buf_size / sintime) - i) * sintime * sin((2.f*float(3.141592)*freq) / sample_rate * i)) / buf_size;
+		for (int i = start_point; i<buf_size; ++i) {
+			samples[i] = (16380 * sin((2.f*float(3.141592)*freq) / sample_rate * i));// *(1 - (i - start_point) / pulselength);
 		}
 
 		freq = freq*2;
@@ -183,18 +190,23 @@ int main()
 		al_check_error();
 	}
 
-	int xpts = 16;
-	int ypts = 32;
+	//Buffer for originating pulse
+	for (int i = 0; i<buf_size; ++i) {
+		samples[i] = 0;
+	}
 
-	int num_sources = xpts;
+	for (int i = 0; i<(buf_size/4); ++i) {
+		samples[i] = (16380 * (buf_size - i*4) * sin((2.f*float(3.141592)*450.f) / sample_rate * i)) / buf_size;
+	}
+	alBufferData(buf[4], AL_FORMAT_MONO16, samples, buf_size * 2, sample_rate);
+	al_check_error();
+
 
 	//Generate 16 sources
+	int num_sources = 16;
 	ALuint *srclist;
 	srclist = new ALuint[num_sources];
-	int *srcTimeCounters;
-	int *srcRemTime;
-	srcTimeCounters = new int[num_sources];
-	srcRemTime = new int[num_sources];
+
 	alGenSources(num_sources, srclist);
 	int y;
 	int x;
@@ -221,46 +233,68 @@ int main()
 		alSourcei(srclist[i], AL_BUFFER, buf[x]);
 		alSourcef(srclist[i], AL_REFERENCE_DISTANCE, 1.0f);
 		alSourcei(srclist[i], AL_SOURCE_RELATIVE, AL_TRUE);
-		alSourcei(srclist[i], AL_LOOPING, AL_TRUE);
-		alSourcei(srclist[i], AL_SAMPLE_OFFSET, (buf_size*i) / (num_sources));
+		alSourcei(srclist[i], AL_LOOPING, AL_FALSE);
 		alSource3f(srclist[i], AL_POSITION, sourcePos[i][0], x-1.5, sourcePos[i][1]);
-		alSourcePlay(srclist[i]);
 
-		srcTimeCounters[i] = 0;
-		srcRemTime[i] = 0;
 	}
+
+	//Originating pulse
+	ALuint *OrigPulse;
+	OrigPulse = new ALuint[1];
+	alGenSources(1, OrigPulse);
+
+	alSourcei(OrigPulse[0], AL_BUFFER, buf[4]);
+	alSourcef(OrigPulse[0], AL_REFERENCE_DISTANCE, 1.0f);
+	alSourcei(OrigPulse[0], AL_SOURCE_RELATIVE, AL_TRUE);
+	alSourcei(OrigPulse[0], AL_LOOPING, AL_FALSE);
+	alSource3f(OrigPulse[0], AL_POSITION, 0, 0, 0);
+	alSourcef(OrigPulse[0], AL_GAIN, 0.3);
+
 	//-------------------------------Back to openCV stuff
 
 	namedWindow("Display window", WINDOW_AUTOSIZE);// Create a window for display.
 	imshow("Display window", planes[0]);                   // Show our image inside it.
 
-	while (waitKey(100) < 0) {
-
-		//while (CheckDMBFlag(PointerToBuf) != 0) { waitKey(10); }
+	while (waitKey(500) < 0) {
 
 		memcpy(Tacos, ReadDepthMapBufFile(PointerToBuf), 640 * 480 * 4);
 		printf("%X \n", Tacos[0]);
 		split(image, planes);
 		
+		alSourcePlay(OrigPulse[0]);
 		//OpenAL Stuff-----------------------------------
 		for (int i = 0; i < num_sources; ++i) {
 			x = i % 4;
-			pointdist = planes[1].at<ushort>(Point(sourceMatCoords[i][1], sourceMatCoords[i][0]));
+			y = (i - x) / 4;
+			//pointdist = planes[1].at<ushort>(Point(sourceMatCoords[i][1], sourceMatCoords[i][0]));
 			
-			pointdistnorm = float(pointdist) / 65535;
-			rectangle(planes[0], Point(sourceMatCoords[i][1], sourceMatCoords[i][0]), Point(sourceMatCoords[i][1] + 3, sourceMatCoords[i][0] + 3), Scalar(255));
+			printf("defing roi \n");
+			//defines roi
+			cv::Rect roi(160*y, 120*x, 160, 120);
 
-			//printf("%2.2f ", pointdistnorm);
+			printf("getting roi \n");
+			printf("%d %d \n", x, y);
+			//copies input image in roi
+			cv::Mat image_roi = planes[1](roi);
+
+			printf("compingmean \n");
+			//computes mean over roi
+			cv::Scalar avgPixelIntensity = cv::mean(image_roi);
+
+			//prints out only .val[0] since image was grayscale
+			int pointdist = avgPixelIntensity.val[0];
 			
-			srcTimeCounters[i] = pointdistnorm * 10;
-			srcRemTime[i] --;
-			if (srcRemTime[i] <= 0) {
-				alSourcePlay(srclist[i]);
-				srcRemTime[i] = srcTimeCounters[i];
-			}
-			alSourcef(srclist[i], AL_GAIN, exp(6.908*(1-pointdistnorm))/2000);
+			pointdistnorm = float(pointdist) / 255;
+			rectangle(planes[0], Point(sourceMatCoords[i][1], sourceMatCoords[i][0]), Point(sourceMatCoords[i][1] + 3, sourceMatCoords[i][0] + 3), Scalar(255));
+			
+			printf("%d ", pointdist);
+
+			alSourcef(srclist[i], AL_GAIN, exp( 6.908*(1-pointdistnorm) )/2000); //should be 6.908 for normal rolloff
+			alSourcei(srclist[i], AL_SAMPLE_OFFSET, buf_size*(1-pointdistnorm));
+			alSourcePlay(srclist[i]);
 		}
 		//End openAL stuff-------------------------------------------
+		printf("\n");
 
 		imshow("Display window", planes[0]);
 	}
