@@ -74,18 +74,14 @@ public class DepthCopyScript : MonoBehaviour {
         Graphics.Blit(source, destination, mat);
         
         RenderTexture.active = destination;
-        if (cpressed == 1)
-        {
-            print("c");
 
-            //Reads the currently active rendertexture to the texture2d
-            tex.ReadPixels(new Rect(0, 0, GetComponent<Camera>().pixelWidth, GetComponent<Camera>().pixelHeight), 0, 0, false);
-            tex.Apply();
-            bytes = tex.GetRawTextureData();
+        //Reads the currently active rendertexture to the texture2d
+        tex.ReadPixels(new Rect(0, 0, GetComponent<Camera>().pixelWidth, GetComponent<Camera>().pixelHeight), 0, 0, false);
+        tex.Apply();
+        bytes = tex.GetRawTextureData();
 
-            //Copies the raw texture data to the pointer to the shared memory space provided by the DLL
-            Marshal.Copy(bytes, 0, unmanagedPointer, bytes.Length);
-        }
+        //Copies the raw texture data to the pointer to the shared memory space provided by the DLL
+        Marshal.Copy(bytes, 0, unmanagedPointer, bytes.Length);
 
         //Call this to display whatever we want on the screen (use a mat if shader is desired)
         Graphics.Blit(source, destination);
