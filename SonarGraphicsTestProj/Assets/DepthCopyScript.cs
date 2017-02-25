@@ -24,6 +24,7 @@ public class DepthCopyScript : MonoBehaviour {
 
     Texture2D tex;
     public Material mat;
+    public Material BlankMat;
 
     int cpressed = 0;
     byte[] bytes;
@@ -57,8 +58,14 @@ public class DepthCopyScript : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetKeyDown("c"))
+        if (Input.GetKey("c"))
+        {
             cpressed = 1;
+        } else
+        {
+            cpressed = 0;
+        }
+            
     }
 
     void OnPostRender()
@@ -84,7 +91,11 @@ public class DepthCopyScript : MonoBehaviour {
         Marshal.Copy(bytes, 0, unmanagedPointer, bytes.Length);
 
         //Call this to display whatever we want on the screen (use a mat if shader is desired)
-        Graphics.Blit(source, destination);
+        if (cpressed == 0)
+        {
+            Graphics.Blit(source, destination, BlankMat);
+        }
+        //
     }
 
     void OnDisable()

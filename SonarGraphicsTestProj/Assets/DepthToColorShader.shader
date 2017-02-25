@@ -13,35 +13,36 @@
 	struct v2f {
 		float4 pos : SV_POSITION;
 		float4 scrPos:TEXCOORD1;
+		//float depth : TEXCOORD0;
 	};
 
-	//struct fragOut
-	//{
-	//	half4 color : SV_Target;
-	//	float depth : SV_Depth;
-	//};
+	struct fragOut
+	{
+		half4 color : SV_Target;
+		//float depth : SV_Depth;
+	};
 
 	//Vertex Shader
 	v2f vert(appdata_base v) {
 		v2f o;
 		o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
 		o.scrPos = ComputeScreenPos(o.pos);
-		//for some reason, the y position of the depth texture comes out inverted
-		o.scrPos.y = 1 - o.scrPos.y;
+		//UNITY_TRANSFER_DEPTH(o.depth);
 		return o;
 	}
 
 	//Fragment Shader
-	half4 frag(v2f i) : COLOR{
+	fragOut frag(v2f i) {
+		fragOut o;
+
 		float depthValue = Linear01Depth(tex2Dproj(_CameraDepthTexture, UNITY_PROJ_COORD(i.scrPos)).r);
-		half4 depth;
 
-		depth.r = 1;
-		depth.g = 1;
-		depth.b = 1;
+		o.color.g = depthValue;// fmod(depthValue * 256, 1);
+		o.color.b = depthValue;//floor(depthValue * 256)/256;
 
-		depth.a = 1;
-		return depth;
+		o.color.r = depthValue;// 0;
+		o.color.a = 0;
+		return o;
 	}
 
 	ENDCG
