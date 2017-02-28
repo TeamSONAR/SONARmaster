@@ -85,6 +85,8 @@ public class DepthCopyScript : MonoBehaviour {
         GL.IssuePluginEvent(GetRenderEventFunc(), 1);
     }
 
+
+	// BUG HERE!!
     void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
         //apply the depth-to-color shader
@@ -105,12 +107,12 @@ public class DepthCopyScript : MonoBehaviour {
         {
             Graphics.Blit(source, destination, BlankMat);
         }
-        //
+        
     }
 
     void OnDisable()
     {
         print("unmapping");
-        UnmapFile();
+        //UnmapFile();
     }
 }

@@ -236,7 +236,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void RotateView()
         {
+
+			//if not wii look checkbox, do:
             m_MouseLook.LookRotation (transform, m_Camera.transform);
+
+			//else do wii stuff
+			//m_WiiLook.rot()
         }
 
 
