@@ -289,7 +289,7 @@ int main()
 			
 			printf("%d ", pointdist);
 
-			alSourcef(srclist[i], AL_GAIN, exp( 6.908*(1-pointdistnorm) )/2000); //should be 6.908 for normal rolloff
+			alSourcef(srclist[i], AL_GAIN, exp( 6.908*(1-(pointdistnorm*0.5)) )/2000); //should be 6.908 for normal rolloff
 			alSourcei(srclist[i], AL_SAMPLE_OFFSET, buf_size*(1-pointdistnorm));
 			alSourcePlay(srclist[i]);
 		}
