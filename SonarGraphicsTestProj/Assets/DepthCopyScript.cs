@@ -51,9 +51,19 @@ public class DepthCopyScript : MonoBehaviour {
 
     void OnEnable()
     {
-        //Set up the dll, get a pointer to the shared named memory space
-        unmanagedPointer = SetupReadPixels();
-        print("Mapping");
+		unmanagedPointer = SetupReadPixels();
+		//Set up the dll, get a pointer to the shared named memory space
+		if(unmanagedPointer.ToInt32() != 0)
+		{
+			print("Mapping");
+		}
+		else
+		{
+			print("failed");
+			Application.Quit();
+
+		}
+        
     }
 
     void Update()
@@ -88,7 +98,7 @@ public class DepthCopyScript : MonoBehaviour {
         bytes = tex.GetRawTextureData();
 
         //Copies the raw texture data to the pointer to the shared memory space provided by the DLL
-        Marshal.Copy(bytes, 0, unmanagedPointer, bytes.Length);
+        //Marshal.Copy(bytes, 0, unmanagedPointer, bytes.Length);
 
         //Call this to display whatever we want on the screen (use a mat if shader is desired)
         if (cpressed == 0)

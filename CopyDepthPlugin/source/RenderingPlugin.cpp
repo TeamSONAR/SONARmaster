@@ -1,4 +1,6 @@
 // Example low level rendering Unity plugin
+#if UNITY_WIN
+
 
 #include "PlatformBase.h"
 #include "RenderAPI.h"
@@ -186,3 +188,15 @@ static void UNITY_INTERFACE_API  OnGraphicsDeviceEvent(UnityGfxDeviceEventType e
 		s_DeviceType = kUnityGfxRendererNull;
 	}
 }
+
+
+
+#else
+#include <stdio.h>
+void* CreateDepthBufMapFile()
+{
+    printf("hello");
+}
+
+
+#endif
