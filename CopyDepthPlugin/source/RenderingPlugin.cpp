@@ -216,11 +216,12 @@ static void * StructPtr;
 static int* PixelBufferPtr;
 
 
+
 extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API SetTimeFromUnity (float t) {
     g_Time = t;
 }
 
-void* CreateDepthBufMapFile()
+void* CreateDepthBufMapFile(int size)
 {
     if ((key = ftok("./", 'R')) == -1) {
         perror("ftok");
@@ -228,7 +229,8 @@ void* CreateDepthBufMapFile()
     }
     
     /* connect to (and possibly create) the segment: */
-    if ((shmid = shmget(key, SHM_SIZE, 0644 | IPC_CREAT)) == -1) {
+//    if ((shmid = shmget(key, SHM_SIZE, 0644 | IPC_CREAT)) == -1) {
+    if ((shmid = shmget(key, size, 0644 | IPC_CREAT)) == -1) {
         perror("shmget");
         exit(1);
     }
@@ -241,9 +243,9 @@ void* CreateDepthBufMapFile()
         perror("shmat");
         exit(1);
     }
-//    char* DumyPtr = (char*)data;
-//    char* DumyPtr2 = DumyPtr + 4;
-//    PixelBufferPtr = (int*)(DumyPtr2);
+    char* DumyPtr = (char*)data;
+    char* DumyPtr2 = DumyPtr + 4;
+    PixelBufferPtr = (int*)(DumyPtr2);
     
     return &data;
 }
@@ -265,8 +267,8 @@ int UnmapDepthBufFile()
 
 //TODO: FAILURE POINT
 ////exported function that sets up the mapped file and returns the pointer to the buffer
-extern "C" unsigned long long UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API SetupReadPixels() {
-    StructPtr = CreateDepthBufMapFile();
+extern "C" unsigned long long UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API SetupReadPixels(int size) {
+    StructPtr = CreateDepthBufMapFile(size);
     
     if (StructPtr == 0) {
         return 0;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.IO;
+using System;
 using UnityEngine;
 using UnityEditor;
 
@@ -16,7 +17,7 @@ public class DepthCopyScript : MonoBehaviour {
     private static extern System.IntPtr GetRenderEventFunc();
 
     [DllImport("RenderingPlugin")]
-    private static extern System.IntPtr SetupReadPixels();
+    private static extern System.IntPtr SetupReadPixels(int size);
 
     [DllImport("RenderingPlugin")]
     private static extern void UnmapFile();
@@ -50,11 +51,18 @@ public class DepthCopyScript : MonoBehaviour {
     }
 
     void OnEnable()
-    {
-		unmanagedPointer = SetupReadPixels();
+	{
+		bytes = new byte[4 * GetComponent<Camera>().pixelWidth * GetComponent<Camera>().pixelHeight];
+		int size = bytes.Length;
+		print("Size is: " + size);
+		print("size of byte: " + sizeof(byte));
+		unmanagedPointer = SetupReadPixels(size);
+		 
+
 		//Set up the dll, get a pointer to the shared named memory space
 		if(unmanagedPointer.ToInt32() != 0)
 		{
+			print("INT OF UNMANAGEDPTR: " + unmanagedPointer.ToInt32());
 			print("Mapping");
 		}
 		else
@@ -99,8 +107,17 @@ public class DepthCopyScript : MonoBehaviour {
         tex.Apply();
         bytes = tex.GetRawTextureData();
 
-        //Copies the raw texture data to the pointer to the shared memory space provided by the DLL
-        //Marshal.Copy(bytes, 0, unmanagedPointer, bytes.Length);
+		//for (int index = 0; index < bytes.Length; index++)
+		//{
+		//	BitConverter.ToBoolean(bytes, index);
+		//}
+
+		//Copies the raw texture data to the pointer to the shared memory space provided by the DLL
+		//Marshal.Copy(bytes, 0, unmanagedPointer, bytes.Length);
+		print("new size is: " + bytes.Length);
+		Marshal.Copy(bytes, 0, unmanagedPointer, 1);
+
+		//Marshal.AllocHGlobal(1);
 
         //Call this to display whatever we want on the screen (use a mat if shader is desired)
         if (cpressed == 0)
@@ -112,7 +129,8 @@ public class DepthCopyScript : MonoBehaviour {
 
     void OnDisable()
     {
+		UnmapFile();
         print("unmapping");
-        //UnmapFile();
+        
     }
 }
