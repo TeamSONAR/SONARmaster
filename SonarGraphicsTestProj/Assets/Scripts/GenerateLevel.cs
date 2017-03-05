@@ -27,8 +27,10 @@ public class GenerateLevel : MonoBehaviour
             for (int j = 0; j < worldsize; j++)
             {
                 //V.x += floorsize; //set transform to next open space
-                GameObject room = Instantiate(nextFloor[Random.Range(0, nextFloor.Length)], V, Quaternion.identity); //instantiate the nextfloor in that space
-                room.GetComponent<Renderer>().material = colors[Random.Range(0, colors.Length)];
+                int next = Random.Range(0, nextFloor.Length);
+                GameObject room = Instantiate(nextFloor[next], V, Quaternion.identity); //instantiate the nextfloor in that space
+                if (next != 4)
+                    room.GetComponent<Renderer>().material = colors[Random.Range(0, colors.Length)];
                 int rando = Random.Range(0, 10);
                 if (rando == 0)
                 {
