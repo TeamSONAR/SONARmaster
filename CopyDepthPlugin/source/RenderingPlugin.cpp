@@ -210,9 +210,9 @@ static void UNITY_INTERFACE_API  OnGraphicsDeviceEvent(UnityGfxDeviceEventType e
 static float g_Time;
 key_t key;
 int shmid;
-void *data;
+int *data;
 int mode;
-static void * StructPtr;
+static int * StructPtr;
 static int* PixelBufferPtr;
 
 
@@ -238,14 +238,14 @@ void* CreateDepthBufMapFile(int size)
     /* attach to the segment to get a pointer to it: */
     //Equiv to pbuf?
     
-    data = (void*)shmat(shmid, (void *)0, 0);
-    if (data == (char *)(-1)) {
+    data = (int*)shmat(shmid, (void *)0, 0);
+    if (data == (int *)(-1)) {
         perror("shmat");
         exit(1);
     }
-    char* DumyPtr = (char*)data;
-    char* DumyPtr2 = DumyPtr + 4;
-    PixelBufferPtr = (int*)(DumyPtr2);
+//    char* DumyPtr = (char*)data;
+//    char* DumyPtr2 = DumyPtr + 4;
+//    PixelBufferPtr = (int*)(DumyPtr2);
     
     return &data;
 }
@@ -267,8 +267,8 @@ int UnmapDepthBufFile()
 
 //TODO: FAILURE POINT
 ////exported function that sets up the mapped file and returns the pointer to the buffer
-extern "C" unsigned long long UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API SetupReadPixels(int size) {
-    StructPtr = CreateDepthBufMapFile(size);
+extern "C" int * UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API SetupReadPixels(int size) {
+    StructPtr = (int*)CreateDepthBufMapFile(size);
     
     if (StructPtr == 0) {
         return 0;
@@ -278,7 +278,7 @@ extern "C" unsigned long long UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API SetupRe
 //    int* LaserPtr = (int*)DummyStruct->BufferLoc;
 //    *LaserPtr = 1;
     
-    return (unsigned long long) StructPtr; //PixelBufferPtr;
+    return (int *) StructPtr; //PixelBufferPtr;
 }
 
 
@@ -286,6 +286,19 @@ extern "C" unsigned long long UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API SetupRe
 extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API UnmapFile() {
     UnmapDepthBufFile();
 }
+
+extern "C" int UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API GetSizeMem() {
+    return sizeof(StructPtr);
+}
+
+extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API WriteMem(bool bytes[], int size)
+{
+    for(int i = 0; i < size; i++)
+    {
+        data[i] = bytes[i];
+    }
+}
+
 
 
 
@@ -339,6 +352,8 @@ extern "C" UnityRenderingEvent UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API GetRen
 {
     return OnRenderEvent;
 }
+
+
 
 
 static void UNITY_INTERFACE_API  OnGraphicsDeviceEvent(UnityGfxDeviceEventType eventType)

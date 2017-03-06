@@ -21,6 +21,12 @@ public class DepthCopyScript : MonoBehaviour {
 
     [DllImport("RenderingPlugin")]
     private static extern void UnmapFile();
+
+	[DllImport("RenderingPlugin")]
+	private static extern void WriteMem(byte[] bytes, int size);
+
+//	[DllImport("RenderingPlugin")]
+//	private static extern int GetSizeMem();
     
 
     Texture2D tex;
@@ -55,7 +61,6 @@ public class DepthCopyScript : MonoBehaviour {
 		bytes = new byte[4 * GetComponent<Camera>().pixelWidth * GetComponent<Camera>().pixelHeight];
 		int size = bytes.Length;
 		print("Size is: " + size);
-		print("size of byte: " + sizeof(byte));
 		unmanagedPointer = SetupReadPixels(size);
 		 
 
@@ -113,10 +118,17 @@ public class DepthCopyScript : MonoBehaviour {
 		//}
 
 		//Copies the raw texture data to the pointer to the shared memory space provided by the DLL
-		//Marshal.Copy(bytes, 0, unmanagedPointer, bytes.Length);
+//		Marshal.Copy(bytes, 0, unmanagedPointer, bytes.Length);
+		//int x = GetSizeMem();
 		print("new size is: " + bytes.Length);
-		Marshal.Copy(bytes, 0, unmanagedPointer, 1);
+		//print ("SHMSize is: " + x);
 
+		if (Application.platform == RuntimePlatform.WindowsPlayer) {
+			Marshal.Copy (bytes, 0, unmanagedPointer, bytes.Length);
+		} 
+		else {
+			WriteMem (bytes, bytes.Length);
+		}
 		//Marshal.AllocHGlobal(1);
 
         //Call this to display whatever we want on the screen (use a mat if shader is desired)
