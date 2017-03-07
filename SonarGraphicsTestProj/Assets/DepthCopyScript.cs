@@ -126,13 +126,20 @@ public class DepthCopyScript : MonoBehaviour {
 		if (Application.platform == RuntimePlatform.WindowsPlayer) {
 			Marshal.Copy (bytes, 0, unmanagedPointer, bytes.Length);
 		} 
-		else {
-			WriteMem (bytes, bytes.Length);
+		else 
+		{
+			Marshal.Copy (bytes, 0, unmanagedPointer, bytes.Length);
+//			WriteMem (bytes, bytes.Length);
+//			for (int i = 0; i < 10; i++)
+//				print(Convert.ToBoolean(bytes[i]));
+//			for (int i = 0; i < 10; i++) {
+//				print (bytes [i]);
+//			};
 		}
 		//Marshal.AllocHGlobal(1);
 
         //Call this to display whatever we want on the screen (use a mat if shader is desired)
-        if (cpressed == 0)
+        if(cpressed == 0)
         {
             Graphics.Blit(source, destination, BlankMat);
         }

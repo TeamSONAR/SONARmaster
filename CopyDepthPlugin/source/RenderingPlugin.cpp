@@ -223,10 +223,11 @@ extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API SetTimeFromUnity (flo
 
 void* CreateDepthBufMapFile(int size)
 {
-    if ((key = ftok("./", 'R')) == -1) {
-        perror("ftok");
-        exit(1);
-    }
+//    if ((key = ftok("./", 'R')) == -1) {
+//        perror("ftok");
+//        exit(1);
+//    }
+    key = 400;
     
     /* connect to (and possibly create) the segment: */
 //    if ((shmid = shmget(key, SHM_SIZE, 0644 | IPC_CREAT)) == -1) {
@@ -291,12 +292,13 @@ extern "C" int UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API GetSizeMem() {
     return sizeof(StructPtr);
 }
 
-extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API WriteMem(bool bytes[], int size)
+extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API WriteMem(bool * bytes, int size)
 {
-    for(int i = 0; i < size; i++)
-    {
-        data[i] = bytes[i];
-    }
+    memcpy(data, bytes, size);
+//    for(int i = 0; i < size; i++)
+//    {
+//        data[i] = bytes[i];
+//    }
 }
 
 
