@@ -47,11 +47,12 @@ Temporary Items
 # =============== #
 ##Unity stuff copied from http://kleber-swf.com/the-definitive-gitignore-for-unity-projects/
 
-/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-/[Ll]ibrary/
+SonarGraphicsTestProj/[Tt]emp/
+SonarGraphicsTestProj/[Oo]bj/
+SonarGraphicsTestProj/[Bb]uild/
+SonarGraphicsTestProj/[Bb]uilds/
+SonarGraphicsTestProj/[Ll]ibrary/
+SonarGraphicsTestProj/[Ll}ibrary/[Mm]etadata/
 sysinfo.txt
 *.stackdump
 
