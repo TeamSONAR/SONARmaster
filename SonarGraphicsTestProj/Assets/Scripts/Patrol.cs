@@ -57,7 +57,7 @@ public class Patrol : MonoBehaviour {
         }
 
 
-
+        //TODO :: Rotate adam
         if (moved >= lengthToMove)
         {
             if (isforward)

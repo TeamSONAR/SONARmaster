@@ -21,6 +21,7 @@ public class GenerateLevel : MonoBehaviour
     {
         endgoal = Random.Range(worldsize * worldsize / 2, worldsize * worldsize);
         Vector3 V = Vector3.zero;
+        int adamChance = 0;
 
         for (int i = 0; i < worldsize; i++) //
         {
@@ -31,13 +32,19 @@ public class GenerateLevel : MonoBehaviour
                 GameObject room = Instantiate(nextFloor[next], V, Quaternion.identity); //instantiate the nextfloor in that space
                 if (next != 4)
                     room.GetComponent<Renderer>().material = colors[Random.Range(0, colors.Length)];
-                int rando = Random.Range(0, 10);
-                if (rando == 0)
+                int rando = Random.Range(0, 10); //1 + adamChance /10 chance to spawn a random walking person.
+                if (rando + adamChance > 9)
                 {
                     Vector3 W = V;
                     //W.y += 1; only for the deathblock. Not for robokyle
                     Instantiate(Enemy, W, Quaternion.Euler(0, 90, 0));
+                    adamChance = 0;
                 }
+                if (rando <= 9) //we didn't spawn adam
+                {
+                    adamChance++; //increase the likelyhood that we spawn adam
+                }
+
                 if (CheckForGoal())
                     Instantiate(Goal, V, Quaternion.identity);
                 roomnum++;
