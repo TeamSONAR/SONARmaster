@@ -9,8 +9,11 @@
 #include <iostream>
 #include <fstream>
 
+
 using namespace cv;
 using namespace std;
+
+#define verticalsources 16
 
 #define AspectRatio 0.75
 #define fovDeg 58.5
@@ -101,33 +104,6 @@ int main()
 {
 	void* PointerToBuf = OpenDepthBufMapFileToRead();
 	printf("%X \n", ReadDepthMapBufFile(PointerToBuf));
-	//while (CheckDMBFlag(PointerToBuf)) {
-	//}
-	
-	/*streampos size;
-	char * memblock;
-	void* PointerToBuf = 0;
-
-	ifstream file("F:/seniorproject/UnityProjects/Testing/SonarGraphicsTestProj/infoFile.txt", ios::in | ios::binary | ios::ate);
-	if (file.is_open())
-	{
-		size = file.tellg();
-		memblock = new char[size];
-		file.seekg(0, ios::beg);
-		file.read(memblock, size);
-		file.close();
-
-		long PointerInt = *((long*)memblock);
-
-		PointerToBuf = (void*)PointerInt;
-
-		printf("opened file\n");
-
-		printf("%d", PointerToBuf);
-	}
-	else {
-		printf("failed to open file\n");
-	}*/
 	
 	Mat Xmat = Mat(480, 640, CV_32FC1);
 	Mat Ymat = Mat(480, 640, CV_32FC1);
@@ -155,129 +131,118 @@ int main()
 
 	init_al();
 
-	ALuint buf[5];
-	alGenBuffers(5, buf);
+	ALuint buf[verticalsources];
+	alGenBuffers(verticalsources, buf);
 	al_check_error();
 
 	/* Fill buffer with Sine-Wave */
-	float freq = 180.f;
+	float freq = 120.f;
 
-	float seconds = 0.5; //was 0.25
-	float starttime = 0.45; // was 1
-	float decaytime = seconds - starttime;
+	float seconds = 1;
+	float amplitude = 0.1f;
+	float rolloff = 0.77f;
 
 	unsigned sample_rate = 22050;
 	size_t buf_size = seconds * sample_rate;
 
 	short *samples;
 	samples = new short[buf_size];
-	for (int i = 0; i<buf_size; ++i) {
-		samples[i] = 0;
-	}
 
-	int start_point = ((buf_size*starttime) / seconds);
-	int pulselength = (decaytime * sample_rate);
-
-	//Set up the four frequencied buffers
-	for (int q = 0; q < 4; q++){
-		for (int i = start_point; i<buf_size; ++i) {
-			samples[i] = (16380 * sin((2.f*float(3.141592)*freq) / sample_rate * i));// *(1 - (i - start_point) / pulselength);
+	//Set up the frequencied buffers
+	for (int q = 0; q < verticalsources; q++){
+		for (int i = 0; i<buf_size; ++i) {
+			samples[i] = 16380 * sin((2.f*float(3.141592)*freq) / sample_rate * i) * amplitude;
 		}
 
-		freq = freq*2;
+		amplitude = amplitude * rolloff;
+
+		freq = freq*1.3f;
 		/* Download buffer to OpenAL */
 		alBufferData(buf[q], AL_FORMAT_MONO16, samples, buf_size * 2, sample_rate);
 		al_check_error();
 	}
-
-	//Buffer for originating pulse
-	for (int i = 0; i<buf_size; ++i) {
-		samples[i] = 0;
-	}
-
-	for (int i = 0; i<(buf_size/4); ++i) {
-		samples[i] = (16380 * (buf_size - i*4) * sin((2.f*float(3.141592)*450.f) / sample_rate * i)) / buf_size;
-	}
-	alBufferData(buf[4], AL_FORMAT_MONO16, samples, buf_size * 2, sample_rate);
-	al_check_error();
-
-
+	
 	//Generate 16 sources
-	int num_sources = 16;
+	//int num_sources = 16;
 	ALuint *srclist;
-	srclist = new ALuint[num_sources];
+	srclist = new ALuint[verticalsources];
 
-	alGenSources(num_sources, srclist);
+	alGenSources(verticalsources, srclist);
 	int y;
 	int x;
 	int xPix;
 	int yPix;
-	int sourceMatCoords[16][2];
-	float sourcePos[16][2];
+	int sourceMatCoords[verticalsources];
+	float sourcePos[verticalsources];
+	int horizontal_steps = 20;
+	int64 tick = 0;
+	float secondselapsed;
+	int64 tick2 = 0;
+	float secondselapsed2  = 0;
 
-	for (int i = 0; i < num_sources; ++i) {
+	for (int i = 0; i < verticalsources; ++i) {
 		//Vertical position
-		x = i % 4;
-		xPix = 60 + (x * 120);
+		x = i;
+		xPix = (480/(verticalsources *2))+(480/ verticalsources)*x;
 		
 		//Horizontal position
-		y = (i - x) / 4;
-		yPix = 80 + (y * 160);
+		//y = (i - x) / 4;
+		//yPix = 80 + (y * 160);
 
-		sourcePos[i][0] = y - 1.5;
-		sourcePos[i][1] = 1;
+		sourcePos[i] = -2;//y - 1.5;
+		//sourcePos[i][1] = 0;
 
-		sourceMatCoords[i][0] = xPix;
-		sourceMatCoords[i][1] = yPix;
+		sourceMatCoords[i] = xPix;
+		//sourceMatCoords[i][1] = yPix;
 
-		alSourcei(srclist[i], AL_BUFFER, buf[x]);
+		alSourcei(srclist[i], AL_BUFFER, buf[i]);
 		alSourcef(srclist[i], AL_REFERENCE_DISTANCE, 1.0f);
 		alSourcei(srclist[i], AL_SOURCE_RELATIVE, AL_TRUE);
-		alSourcei(srclist[i], AL_LOOPING, AL_FALSE);
-		alSource3f(srclist[i], AL_POSITION, sourcePos[i][0], x-1.5, sourcePos[i][1]);
+		alSourcei(srclist[i], AL_LOOPING, AL_TRUE);
+		alSource3f(srclist[i], AL_POSITION, -2, 0, 1);
+		alSourcePlay(srclist[i]);
 
 	}
 
-	//Originating pulse
-	ALuint *OrigPulse;
-	OrigPulse = new ALuint[1];
-	alGenSources(1, OrigPulse);
-
-	alSourcei(OrigPulse[0], AL_BUFFER, buf[4]);
-	alSourcef(OrigPulse[0], AL_REFERENCE_DISTANCE, 1.0f);
-	alSourcei(OrigPulse[0], AL_SOURCE_RELATIVE, AL_TRUE);
-	alSourcei(OrigPulse[0], AL_LOOPING, AL_FALSE);
-	alSource3f(OrigPulse[0], AL_POSITION, 0, 0, 0);
-	alSourcef(OrigPulse[0], AL_GAIN, 0.3);
 
 	//-------------------------------Back to openCV stuff
 
 	namedWindow("Display window", WINDOW_AUTOSIZE);// Create a window for display.
 	imshow("Display window", planes[0]);                   // Show our image inside it.
 
-	while (waitKey(500) < 0) {
+	int horizpos = 0;
 
-		memcpy(Tacos, ReadDepthMapBufFile(PointerToBuf), 640 * 480 * 4);
-		printf("%X \n", Tacos[0]);
-		split(image, planes);
+	while (waitKey(45) < 0) {
+
+		if (horizpos == horizontal_steps) { printf("new thing \n"); horizpos = 0; }
+
+		if (horizpos == 0) {
+			memcpy(Tacos, ReadDepthMapBufFile(PointerToBuf), 640 * 480 * 4);
+			split(image, planes);
+			imshow("Display window", planes[0]);
+
+			secondselapsed = (getTickCount() - tick) / getTickFrequency();
+			printf("%2.4f \n", secondselapsed);
+			printf("%2.6f \n", secondselapsed2);
+			secondselapsed2 = 0;
+			tick = getTickCount();
+		}
 		
-		alSourcePlay(OrigPulse[0]);
 		//OpenAL Stuff-----------------------------------
-		for (int i = 0; i < num_sources; ++i) {
-			x = i % 4;
-			y = (i - x) / 4;
+		tick2 = getTickCount();
+		for (int i = 0; i < verticalsources; ++i) {
+			//x = i % 4;
+			//y = (i - x) / 4;
 			//pointdist = planes[1].at<ushort>(Point(sourceMatCoords[i][1], sourceMatCoords[i][0]));
 			
-			printf("defing roi \n");
+			//printf("defing roi \n");
 			//defines roi
-			cv::Rect roi(160*y, 120*x, 160, 120);
+			cv::Rect roi((640/horizontal_steps)*horizpos, (480/ verticalsources)*i, (640/horizontal_steps), (480/ verticalsources));
 
-			printf("getting roi \n");
-			printf("%d %d \n", x, y);
 			//copies input image in roi
 			cv::Mat image_roi = planes[1](roi);
 
-			printf("compingmean \n");
+			//printf("compingmean \n");
 			//computes mean over roi
 			cv::Scalar avgPixelIntensity = cv::mean(image_roi);
 
@@ -285,26 +250,25 @@ int main()
 			int pointdist = avgPixelIntensity.val[0];
 			
 			pointdistnorm = float(pointdist) / 255;
-			rectangle(planes[0], Point(sourceMatCoords[i][1], sourceMatCoords[i][0]), Point(sourceMatCoords[i][1] + 3, sourceMatCoords[i][0] + 3), Scalar(255));
-			
-			printf("%d ", pointdist);
+			rectangle(planes[0], Point(horizpos*(640 / horizontal_steps), sourceMatCoords[i]), Point(horizpos*(640 / horizontal_steps) + 3, sourceMatCoords[i] + 3), Scalar(255));
 
-			alSourcef(srclist[i], AL_GAIN, exp( 6.908*(1-(pointdistnorm*0.5)) )/2000); //should be 6.908 for normal rolloff
-			alSourcei(srclist[i], AL_SAMPLE_OFFSET, buf_size*(1-pointdistnorm));
-			alSourcePlay(srclist[i]);
+			alSource3f(srclist[i], AL_POSITION, -1.9+4*(float(horizpos)/float(horizontal_steps)), 0, 1);
+			alSourcef(srclist[i], AL_GAIN, exp( 6.908*(1-pointdistnorm) )/1000); //should be 6.908 for normal rolloff
 		}
 		//End openAL stuff-------------------------------------------
-		printf("\n");
+		//printf("\n");
 
-		imshow("Display window", planes[0]);
+		horizpos++;
+
+		secondselapsed2 += (getTickCount() - tick2) / getTickFrequency();
 	}
 	UnmapDepthBufFile(PointerToBuf);
 
 	//OpenAL stuff-----------------
-	alDeleteSources(num_sources, srclist);
+	alDeleteSources(verticalsources, srclist);
 	exit_al();
 	al_check_error();
-	//Stop OpenALL stuff-------------------
+	//Stop OpenAL stuff-------------------
 
 	delete Tacos;
 	return 0;
