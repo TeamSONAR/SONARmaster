@@ -6,7 +6,8 @@ public class SpawnCar : MonoBehaviour {
 
     public GameObject car;
     bool spawnedCar = false;
-    
+    public bool carMovesForward = true;
+
 	// Update is called once per frame
 	void Update ()
     {
@@ -21,6 +22,8 @@ public class SpawnCar : MonoBehaviour {
     void SpawnItem()
     {
         spawnedCar = false;
-        Instantiate(car, transform.position, transform.rotation);
+        
+        GameObject createdCar = (GameObject)Instantiate(car, transform.position, transform.rotation);
+        createdCar.GetComponent<MoveCar>().moveForward = carMovesForward;
     }
 }
