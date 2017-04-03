@@ -4,8 +4,9 @@
 #include "stdafx.h"
 
 
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
+#include "opencv2/core/core.hpp"
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
 #include <iostream>
 #include <fstream>
 
@@ -19,6 +20,10 @@ using namespace std;
 #define fovDeg 58.5
 
 #define CASE_RETURN(err) case (err): return "##err"
+
+int xSize = 640;
+int ySize = 480;
+
 const char* al_err_str(ALenum err) {
 	switch (err) {
 		CASE_RETURN(AL_NO_ERROR);
@@ -78,10 +83,10 @@ void CreateXY(Mat* Xmat, Mat* Ymat) {
 	float Xpos;
 	float Ypos;
 
-	for (int y = 0; y < 640; y++) {
-		for (int x = 0; x < 480; x++) {
-			thetaY = (-fovDeg / 2) + (fovDeg*y / 640);
-			thetaX = (-fovDeg / (2 / AspectRatio)) + (fovDeg*x / (640 / AspectRatio));
+	for (int y = 0; y < xSize; y++) {
+		for (int x = 0; x < ySize; x++) {
+			thetaY = (-fovDeg / 2) + (fovDeg*y / xSize);
+			thetaX = (-fovDeg / (2 / AspectRatio)) + (fovDeg*x / (xSize / AspectRatio));
 
 			PhiZX = (90 - abs(thetaX)) * (180 / 3.1415926535);
 			PhiZY = (90 - abs(thetaY)) * (180 / 3.1415926535);
@@ -105,14 +110,14 @@ int main()
 	void* PointerToBuf = OpenDepthBufMapFileToRead();
 	printf("%X \n", ReadDepthMapBufFile(PointerToBuf));
 	
-	Mat Xmat = Mat(480, 640, CV_32FC1);
-	Mat Ymat = Mat(480, 640, CV_32FC1);
+	Mat Xmat = Mat(ySize, xSize, CV_32FC1);
+	Mat Ymat = Mat(ySize, xSize, CV_32FC1);
 
 	CreateXY(&Xmat, &Ymat);
 
-	int* Tacos = new int[640 * 480];
-	memcpy(Tacos, ReadDepthMapBufFile(PointerToBuf), 640 * 480 * 4);
-	Mat image = Mat(480, 640, CV_16UC2, Tacos);
+	int* Tacos = new int[xSize * ySize];
+	memcpy(Tacos, ReadDepthMapBufFile(PointerToBuf), xSize * ySize * 4);
+	Mat image = Mat(ySize, xSize, CV_16UC2, Tacos);
 	Mat planes[2];
 	split(image, planes);
 
@@ -183,7 +188,7 @@ int main()
 	for (int i = 0; i < verticalsources; ++i) {
 		//Vertical position
 		x = i;
-		xPix = (480/(verticalsources *2))+(480/ verticalsources)*x;
+		xPix = (ySize/(verticalsources *2))+(ySize/ verticalsources)*x;
 		
 		//Horizontal position
 		//y = (i - x) / 4;
@@ -211,15 +216,19 @@ int main()
 	imshow("Display window", planes[0]);                   // Show our image inside it.
 
 	int horizpos = 0;
-
-	while (waitKey(45) < 0) {
-
+	int keyCode = 255;
+	//while (cvWaitKey(1) < 0) {
+	while(keyCode == 255 || keyCode < 0){
+		keyCode = waitKey(45);
+		//printf("key code is: %d\n", keyCode);
 		if (horizpos == horizontal_steps) { printf("new thing \n"); horizpos = 0; }
 
 		if (horizpos == 0) {
-			memcpy(Tacos, ReadDepthMapBufFile(PointerToBuf), 640 * 480 * 4);
+			memcpy(Tacos, ReadDepthMapBufFile(PointerToBuf), xSize * ySize * 4);
 			split(image, planes);
-			imshow("Display window", planes[0]);
+			Mat flipped;
+			flip(planes[0], flipped, 0);
+			imshow("Display window", flipped);
 
 			secondselapsed = (getTickCount() - tick) / getTickFrequency();
 			printf("%2.4f \n", secondselapsed);
@@ -237,7 +246,7 @@ int main()
 			
 			//printf("defing roi \n");
 			//defines roi
-			cv::Rect roi((640/horizontal_steps)*horizpos, (480/ verticalsources)*i, (640/horizontal_steps), (480/ verticalsources));
+			cv::Rect roi((xSize/horizontal_steps)*horizpos, (ySize/ verticalsources)*i, (xSize/horizontal_steps), (ySize/ verticalsources));
 
 			//copies input image in roi
 			cv::Mat image_roi = planes[1](roi);
@@ -250,7 +259,7 @@ int main()
 			int pointdist = avgPixelIntensity.val[0];
 			
 			pointdistnorm = float(pointdist) / 255;
-			rectangle(planes[0], Point(horizpos*(640 / horizontal_steps), sourceMatCoords[i]), Point(horizpos*(640 / horizontal_steps) + 3, sourceMatCoords[i] + 3), Scalar(255));
+			rectangle(planes[0], Point(horizpos*(xSize / horizontal_steps), sourceMatCoords[i]), Point(horizpos*(xSize / horizontal_steps) + 3, sourceMatCoords[i] + 3), Scalar(255));
 
 			alSource3f(srclist[i], AL_POSITION, -1.9+4*(float(horizpos)/float(horizontal_steps)), 0, 1);
 			alSourcef(srclist[i], AL_GAIN, exp( 6.908*(1-pointdistnorm) )/1000); //should be 6.908 for normal rolloff

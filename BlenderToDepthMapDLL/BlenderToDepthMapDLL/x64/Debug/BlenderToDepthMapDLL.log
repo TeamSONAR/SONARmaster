@@ -1,2 +1,3 @@
 ﻿  BlenderToDepthMapDLL.cpp
-f:\seniorproject\masterfolder\sonarmaster\blendertodepthmapdll\blendertodepthmapdll\blendertodepthmapdll.cpp(128): fatal error C1019: unexpected #else
+  BlenderToDepthMapDLL.vcxproj -> C:\SONARmaster\SONARBackEnd\x64\Debug\BlenderToDepthMapDLL.dll
+  BlenderToDepthMapDLL.vcxproj -> C:\SONARmaster\SONARBackEnd\x64\Debug\BlenderToDepthMapDLL.pdb (Full PDB)
