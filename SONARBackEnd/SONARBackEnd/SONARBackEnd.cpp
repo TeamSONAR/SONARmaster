@@ -4,8 +4,11 @@
 #include "stdafx.h"
 
 
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
+#include "opencv2/core/core.hpp"
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
+#include <windows.h>
+//#include<conio.h>
 #include <iostream>
 #include <fstream>
 
@@ -212,8 +215,9 @@ int main()
 
 	int horizpos = 0;
 
-	while (waitKey(45) < 0) {
-
+	while (cvWaitKey(1) < 0) {
+	//while(waitKey(45) < 0){
+		
 		if (horizpos == horizontal_steps) { printf("new thing \n"); horizpos = 0; }
 
 		if (horizpos == 0) {
