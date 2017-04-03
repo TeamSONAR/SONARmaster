@@ -3,10 +3,16 @@
 
 #include "BlenderToDepthMapDLL.h"
 
+
 //#ifdef _WIN32
 
 #include "stdafx.h"
-#define BUF_SIZE 4+640*480*4
+#include <fstream>
+#include <iostream>
+#define BUF_SIZE 4*640*480+4
+
+
+
 TCHAR szName[] = TEXT("Local\\MyFileMappingObject");
 TCHAR szMsg[] = TEXT("Message from first process.");
 
@@ -65,8 +71,9 @@ int UnmapDepthBufFile(void* UnmapFileStruct) {
 	return 47;
 }
 
-void* OpenDepthBufMapFileToRead()
+void* OpenDepthBufMapFileToRead(int x, int y)
 {
+	int buf_size = 4 * x * y + 4;
 	static Harambe DataStruct;
 	void *pBuf;
 
@@ -86,7 +93,7 @@ void* OpenDepthBufMapFileToRead()
 		FILE_MAP_ALL_ACCESS,  // read/write permission
 		0,
 		0,
-		BUF_SIZE);
+		buf_size);
 
 	if (pBuf == NULL)
 	{
