@@ -105,9 +105,24 @@ void CreateXY(Mat* Xmat, Mat* Ymat) {
 	}
 }
 
+void initDim() {
+	int x; int y;
+	ifstream readFile;
+	readFile.open("C:\\SONARmaster\\SonarGraphicsTestProj\\dimensions.txt");
+	//while (readFile.good())
+		//cout << (char)readFile.get();
+	readFile >> x;
+	readFile >> y;
+	xSize = x; ySize = y;
+	printf("x size is: %d, y size is: %d\n", x, y);
+	readFile.close();
+
+}
+
 int main()
 {
-	void* PointerToBuf = OpenDepthBufMapFileToRead();
+	initDim();
+	void* PointerToBuf = OpenDepthBufMapFileToRead(xSize,ySize);
 	printf("%X \n", ReadDepthMapBufFile(PointerToBuf));
 	
 	Mat Xmat = Mat(ySize, xSize, CV_32FC1);

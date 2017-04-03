@@ -8,7 +8,10 @@
 
 #include <assert.h>
 #include <math.h>
+#include <fstream>
+#include <iostream>
 
+using namespace std;
 
 //#define BUF_SIZE 4+640*480*4
 
@@ -46,7 +49,12 @@ static int GLDepthFormat = GL_DEPTH_COMPONENT;
 void* CreateDepthBufMapFile(int x, int y)
 {
 #define BUF_SIZE 4 + x * y * 4
-	int k;
+	const char *path = ".\\..\\..\\SonarGraphicsTestProj\Assets\Plugins\x86_64\test.txt";
+	ofstream writeFile;
+	//writeFile.open(path);
+	writeFile.open("dimensions.txt");
+	writeFile << x << "\n" << y;
+	writeFile.close();
 	static FileMappingInfo DataStruct;
 	void *pBuf;
 
