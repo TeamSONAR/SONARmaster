@@ -9,7 +9,8 @@
 #include <assert.h>
 #include <math.h>
 
-#define BUF_SIZE 4+640*480*4
+
+//#define BUF_SIZE 4+640*480*4
 
 #if UNITY_WIN
 #include "Windows.h"
@@ -42,8 +43,9 @@ static bool depthtestenabled;
 static void* StructPtr;
 static int GLDepthFormat = GL_DEPTH_COMPONENT;
 
-void* CreateDepthBufMapFile()
+void* CreateDepthBufMapFile(int x, int y)
 {
+#define BUF_SIZE 4 + x * y * 4
 	static FileMappingInfo DataStruct;
 	void *pBuf;
 
@@ -90,9 +92,9 @@ int UnmapDepthBufFile() {
 }
 
 //exported function that sets up the mapped file and returns the pointer to the buffer
-extern "C" unsigned long long UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API SetupReadPixels() {
-	StructPtr = CreateDepthBufMapFile();
-
+extern "C" unsigned long long UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API SetupReadPixels(int x, int y) {
+	StructPtr = CreateDepthBufMapFile(x,y);
+	
 	if (StructPtr == 0) {
 		return 0;
 	}

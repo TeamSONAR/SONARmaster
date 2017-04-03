@@ -1,0 +1,21 @@
+﻿  RenderingPlugin.cpp
+glew.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+     Creating library C:\SONARmaster\CopyDepthPlugin\projects\VisualStudio2015\..\..\build\Win32\Debug\RenderingPlugin.lib and object C:\SONARmaster\CopyDepthPlugin\projects\VisualStudio2015\..\..\build\Win32\Debug\RenderingPlugin.exp
+  RenderingPlugin.vcxproj -> C:\SONARmaster\CopyDepthPlugin\projects\VisualStudio2015\..\..\build\Win32\Debug\RenderingPlugin.dll
+  RenderingPlugin.vcxproj -> C:\SONARmaster\CopyDepthPlugin\projects\VisualStudio2015\..\..\build\Win32\Debug\RenderingPlugin.pdb (Full PDB)
+  Target Plugin Path is C:\SONARmaster\CopyDepthPlugin\projects\VisualStudio2015\..\..\..\UnityProject\Assets\Plugins\x86
+  The system cannot find the path specified.
+          0 file(s) copied.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets(133,5): error MSB3073: The command "SETLOCAL
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets(133,5): error MSB3073: 
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets(133,5): error MSB3073: if "x86" == "x86" (
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets(133,5): error MSB3073:   set TARGET_PLUGIN_PATH=C:\SONARmaster\CopyDepthPlugin\projects\VisualStudio2015\..\..\..\UnityProject\Assets\Plugins\x86
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets(133,5): error MSB3073: ) else (
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets(133,5): error MSB3073:   set TARGET_PLUGIN_PATH=C:\SONARmaster\CopyDepthPlugin\projects\VisualStudio2015\..\..\..\UnityProject\Assets\Plugins\x86_64
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets(133,5): error MSB3073: )
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets(133,5): error MSB3073: echo Target Plugin Path is %TARGET_PLUGIN_PATH%
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets(133,5): error MSB3073: copy /Y "C:\SONARmaster\CopyDepthPlugin\projects\VisualStudio2015\..\..\build\Win32\Debug\RenderingPlugin.dll" "%TARGET_PLUGIN_PATH%\RenderingPlugin.dll"
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets(133,5): error MSB3073: 
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets(133,5): error MSB3073: ENDLOCAL
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets(133,5): error MSB3073: 
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets(133,5): error MSB3073: :VCEnd" exited with code 1.

@@ -6,7 +6,23 @@
 //#ifdef _WIN32
 
 #include "stdafx.h"
-#define BUF_SIZE 4+640*480*4
+
+int getXSize()
+{
+	return 640;
+}
+
+int getYSize()
+{
+	return 480;
+}
+
+int xSize = getXSize();
+int ySize = getYSize();
+
+
+
+#define BUF_SIZE 4+xSize*ySize*4
 TCHAR szName[] = TEXT("Local\\MyFileMappingObject");
 TCHAR szMsg[] = TEXT("Message from first process.");
 

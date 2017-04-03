@@ -17,7 +17,7 @@ public class DepthCopyScript : MonoBehaviour {
     private static extern System.IntPtr GetRenderEventFunc();
 
     [DllImport("RenderingPlugin")]
-    private static extern System.IntPtr SetupReadPixels(int size);
+    private static extern System.IntPtr SetupReadPixels(int x, int y);
 
     [DllImport("RenderingPlugin")]
     private static extern void UnmapFile();
@@ -60,8 +60,11 @@ public class DepthCopyScript : MonoBehaviour {
 	{
 		bytes = new byte[4 * GetComponent<Camera>().pixelWidth * GetComponent<Camera>().pixelHeight];
 		int size = bytes.Length;
+		int xSize = GetComponent<Camera> ().pixelWidth;
+		int ySize = GetComponent<Camera> ().pixelHeight;
 		print("Size is: " + size);
-		unmanagedPointer = SetupReadPixels(size);
+		unmanagedPointer = SetupReadPixels (xSize, ySize);
+		//unmanagedPointer = SetupReadPixels(size);
 		 
 
 		//Set up the dll, get a pointer to the shared named memory space
