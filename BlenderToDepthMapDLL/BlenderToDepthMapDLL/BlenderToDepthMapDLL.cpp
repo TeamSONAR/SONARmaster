@@ -3,7 +3,7 @@
 
 #include "BlenderToDepthMapDLL.h"
 
-#ifdef _WIN32
+//#ifdef _WIN32
 
 #include "stdafx.h"
 #define BUF_SIZE 4+640*480*4
@@ -125,24 +125,24 @@ CopyMemory(HarDataStruct->BufferLoc, InputBuf, (BufLen * sizeof(float)));
 return 0;
 }*/
 
-#else
-// Unix 
-
-#define SHMSIZE 1024
-
-#include <sys/types.h>
-#include <sys/ipc.h> 
-#include <sys/shm.h> 
-#include <stdio.h>
-
-key_t key; /* key to be passed to shmget() */ 
-int shmflg; /* shmflg to be passed to shmget() */ 
-int shmid; /* return value from shmget() */ 
-int size; /* size to be passed to shmget() */ 
-
-
-
-shmid = shmget ()
-
-
-#endif
+//#else
+//// Unix 
+//
+//#define SHMSIZE 1024
+//
+//#include <sys/types.h>
+//#include <sys/ipc.h> 
+//#include <sys/shm.h> 
+//#include <stdio.h>
+//
+//key_t key; /* key to be passed to shmget() */ 
+//int shmflg; /* shmflg to be passed to shmget() */ 
+//int shmid; /* return value from shmget() */ 
+//int size; /* size to be passed to shmget() */ 
+//
+//
+//
+//shmid = shmget ()
+//
+//
+//#endif
