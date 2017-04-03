@@ -49,7 +49,7 @@ static int GLDepthFormat = GL_DEPTH_COMPONENT;
 void* CreateDepthBufMapFile(int x, int y)
 {
 #define BUF_SIZE 4 + x * y * 4
-	const char *path = ".\\..\\..\\SonarGraphicsTestProj\Assets\Plugins\x86_64\test.txt";
+	const char *path = ".\\..\\..\\SonarGraphicsTestProj\\Assets\\Plugins\\x86_64\\test.txt";
 	ofstream writeFile;
 	//writeFile.open(path);
 	writeFile.open("dimensions.txt");

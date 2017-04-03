@@ -9,6 +9,7 @@
 #include "opencv2/imgproc/imgproc.hpp"
 #include <iostream>
 #include <fstream>
+#include<windows.h>
 
 
 using namespace cv;
@@ -106,9 +107,16 @@ void CreateXY(Mat* Xmat, Mat* Ymat) {
 }
 
 void initDim() {
+	/*ofstream test;
+	test.open("blah.txt");
+	test << "HELLO";
+	test.close();
+	*/
 	int x; int y;
 	ifstream readFile;
-	readFile.open("C:\\SONARmaster\\SonarGraphicsTestProj\\dimensions.txt");
+	
+	//readFile.open("C:\\SONARmaster\\SonarGraphicsTestProj\\dimensions.txt");
+	readFile.open("..\\..\\SonarGraphicsTestProj\\dimensions.txt");
 	//while (readFile.good())
 		//cout << (char)readFile.get();
 	readFile >> x;
