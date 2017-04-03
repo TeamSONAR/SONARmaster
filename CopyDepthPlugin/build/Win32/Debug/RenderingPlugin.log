@@ -1,6 +1,5 @@
 ﻿  RenderingPlugin.cpp
-glew.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
-     Creating library C:\SONARmaster\CopyDepthPlugin\projects\VisualStudio2015\..\..\build\Win32\Debug\RenderingPlugin.lib and object C:\SONARmaster\CopyDepthPlugin\projects\VisualStudio2015\..\..\build\Win32\Debug\RenderingPlugin.exp
+c:\sonarmaster\copydepthplugin\source\renderingplugin.cpp(49): warning C4101: 'k': unreferenced local variable
   RenderingPlugin.vcxproj -> C:\SONARmaster\CopyDepthPlugin\projects\VisualStudio2015\..\..\build\Win32\Debug\RenderingPlugin.dll
   RenderingPlugin.vcxproj -> C:\SONARmaster\CopyDepthPlugin\projects\VisualStudio2015\..\..\build\Win32\Debug\RenderingPlugin.pdb (Full PDB)
   Target Plugin Path is C:\SONARmaster\CopyDepthPlugin\projects\VisualStudio2015\..\..\..\UnityProject\Assets\Plugins\x86

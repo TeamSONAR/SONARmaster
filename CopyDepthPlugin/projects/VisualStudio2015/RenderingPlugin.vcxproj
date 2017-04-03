@@ -209,7 +209,7 @@ if "$(PlatformShortName)" == "x86" (
   set TARGET_PLUGIN_PATH=$(SolutionDir)..\..\..\UnityProject\Assets\Plugins\x86_64
 )
 echo Target Plugin Path is %TARGET_PLUGIN_PATH%
-copy /Y "$(TargetPath)" "%TARGET_PLUGIN_PATH%\$(TargetFileName)"
+copy /Y "$(TargetPath)" "C:\SONARmaster\SonarGraphicsTestProj\Assets\Plugins\x86_64\$(TargetFileName)"
 
 ENDLOCAL
 </Command>
@@ -245,7 +245,7 @@ if "$(PlatformShortName)" == "x86" (
   set TARGET_PLUGIN_PATH=$(SolutionDir)..\..\..\UnityProject\Assets\Plugins\x86_64
 )
 echo Target Plugin Path is %TARGET_PLUGIN_PATH%
-copy /Y "$(TargetPath)" "%TARGET_PLUGIN_PATH%\$(TargetFileName)"
+copy /Y "$(TargetPath)" "C:\SONARmaster\SonarGraphicsTestProj\Assets\Plugins\x86_64\$(TargetFileName)"
 
 ENDLOCAL
 </Command>

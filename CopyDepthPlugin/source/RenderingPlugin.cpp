@@ -46,6 +46,7 @@ static int GLDepthFormat = GL_DEPTH_COMPONENT;
 void* CreateDepthBufMapFile(int x, int y)
 {
 #define BUF_SIZE 4 + x * y * 4
+	int k;
 	static FileMappingInfo DataStruct;
 	void *pBuf;
 
