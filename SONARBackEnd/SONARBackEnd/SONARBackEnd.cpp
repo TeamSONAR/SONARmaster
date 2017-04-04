@@ -174,7 +174,7 @@ int main()
 	al_check_error();
 
 	/* Fill buffer with Sine-Wave */
-	float freq = 120.f;
+	float freq = 130.f;
 
 	float seconds = 1;
 	float amplitude = 0.1f;
