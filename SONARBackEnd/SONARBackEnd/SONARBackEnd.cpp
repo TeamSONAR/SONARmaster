@@ -120,7 +120,7 @@ void initDim() {
 		cout << "Enter file location";
 		string loc;
 		cin >> loc;
-		readFile.open("..\\..\\SonarGraphicsTestProj\\dimensions.txt");
+		readFile.open(loc);
 		/*cerr << "Bad file access";
 		exit(-1);*/
 	}
@@ -245,10 +245,17 @@ int main()
 	imshow("Display window", planes[0]);                   // Show our image inside it.
 
 	int horizpos = 0;
+	bool cPressed = false;
 	int keyCode = 255;
-	//while (cvWaitKey(1) < 0) {
-	while(keyCode == 255 || keyCode < 0){
+	// 255: 'no key' press, < 0: 'no key registered', 99: 'c' pressed
+	while(keyCode == 255 || keyCode < 0 || keyCode == 99){
 		keyCode = waitKey(45);
+		// Pressed c, hide/show window
+		if (keyCode == 99)
+		{
+			cPressed = !cPressed;
+			printf("cpressed is: %d\n", cPressed);
+		}
 		//printf("key code is: %d\n", keyCode);
 		if (horizpos == horizontal_steps) { printf("new thing \n"); horizpos = 0; }
 
@@ -257,7 +264,15 @@ int main()
 			split(image, planes);
 			Mat flipped;
 			flip(planes[0], flipped, 0);
-			imshow("Display window", flipped);
+			if (!cPressed)
+			{
+				imshow("Display window", flipped);
+			}
+			else
+			{
+				Mat blank(1, 1, CV_8UC3, Scalar(0, 0, 0));
+				imshow("Display window", blank);
+			}
 
 			secondselapsed = (getTickCount() - tick) / getTickFrequency();
 			printf("%2.4f \n", secondselapsed);
