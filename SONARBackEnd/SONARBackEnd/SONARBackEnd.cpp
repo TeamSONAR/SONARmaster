@@ -16,9 +16,9 @@ using namespace cv;
 using namespace std;
 
 #define verticalsources 16
-
 #define AspectRatio 0.75
 #define fovDeg 58.5
+#define PI 3.1415926535
 
 #define CASE_RETURN(err) case (err): return "##err"
 
@@ -89,8 +89,8 @@ void CreateXY(Mat* Xmat, Mat* Ymat) {
 			thetaY = (-fovDeg / 2) + (fovDeg*y / xSize);
 			thetaX = (-fovDeg / (2 / AspectRatio)) + (fovDeg*x / (xSize / AspectRatio));
 
-			PhiZX = (90 - abs(thetaX)) * (180 / 3.1415926535);
-			PhiZY = (90 - abs(thetaY)) * (180 / 3.1415926535);
+			PhiZX = (90 - abs(thetaX)) * (180 / PI);
+			PhiZY = (90 - abs(thetaY)) * (180 / PI);
 
 			a1 = pow(1.0F / tan(PhiZX), 2);
 			a2 = pow(1.0F / tan(PhiZY), 2);
@@ -107,28 +107,24 @@ void CreateXY(Mat* Xmat, Mat* Ymat) {
 }
 
 void initDim() {
-	/*ofstream test;
-	test.open("blah.txt");
-	test << "HELLO";
-	test.close();
-	*/
 	int x; int y;
 	ifstream readFile;
-	
-	//readFile.open("C:\\SONARmaster\\SonarGraphicsTestProj\\dimensions.txt");
 	readFile.open("..\\..\\..\\SonarGraphicsTestProj\\dimensions.txt");
 	if (!readFile.good())
 	{
 		readFile.close();
 		readFile.open("..\\..\\SonarGraphicsTestProj\\dimensions.txt");
 	}
-	if (!readFile.good())
+	while (!readFile.good())
 	{
-		cerr << "Bad file access";
-		exit(-1);
+		cout << "Enter file location";
+		string loc;
+		cin >> loc;
+		readFile.open("..\\..\\SonarGraphicsTestProj\\dimensions.txt");
+		/*cerr << "Bad file access";
+		exit(-1);*/
 	}
-	//while (readFile.good())
-		//cout << (char)readFile.get();
+
 	readFile >> x;
 	readFile >> y;
 	xSize = x; ySize = y;
@@ -148,9 +144,9 @@ int main()
 
 	CreateXY(&Xmat, &Ymat);
 
-	int* Tacos = new int[xSize * ySize];
-	memcpy(Tacos, ReadDepthMapBufFile(PointerToBuf), xSize * ySize * 4);
-	Mat image = Mat(ySize, xSize, CV_16UC2, Tacos);
+	int* dst = new int[xSize * ySize];
+	memcpy(dst, ReadDepthMapBufFile(PointerToBuf), xSize * ySize * 4);
+	Mat image = Mat(ySize, xSize, CV_16UC2, dst);
 	Mat planes[2];
 	split(image, planes);
 
@@ -189,7 +185,7 @@ int main()
 	//Set up the frequencied buffers
 	for (int q = 0; q < verticalsources; q++){
 		for (int i = 0; i<buf_size; ++i) {
-			samples[i] = 16380 * sin((2.f*float(3.141592)*freq) / sample_rate * i) * amplitude;
+			samples[i] = 16380 * sin((2.f*float(PI)*freq) / sample_rate * i) * amplitude;
 		}
 
 		amplitude = amplitude * rolloff;
@@ -257,7 +253,7 @@ int main()
 		if (horizpos == horizontal_steps) { printf("new thing \n"); horizpos = 0; }
 
 		if (horizpos == 0) {
-			memcpy(Tacos, ReadDepthMapBufFile(PointerToBuf), xSize * ySize * 4);
+			memcpy(dst, ReadDepthMapBufFile(PointerToBuf), xSize * ySize * 4);
 			split(image, planes);
 			Mat flipped;
 			flip(planes[0], flipped, 0);
@@ -312,6 +308,6 @@ int main()
 	al_check_error();
 	//Stop OpenAL stuff-------------------
 
-	delete Tacos;
+	delete dst;
 	return 0;
 }
