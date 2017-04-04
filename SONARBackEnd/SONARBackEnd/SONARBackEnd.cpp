@@ -110,13 +110,13 @@ void initDim() {
 	/*ofstream test;
 	test.open("blah.txt");
 	test << "HELLO";
-	test.close();
-	*/
+	test.close();*/
+	
 	int x; int y;
 	ifstream readFile;
 	
 	//readFile.open("C:\\SONARmaster\\SonarGraphicsTestProj\\dimensions.txt");
-	readFile.open("..\\..\\SonarGraphicsTestProj\\dimensions.txt");
+	readFile.open("..\\..\\..\\SonarGraphicsTestProj\\dimensions.txt");
 	//while (readFile.good())
 		//cout << (char)readFile.get();
 	readFile >> x;
@@ -263,18 +263,13 @@ int main()
 		//OpenAL Stuff-----------------------------------
 		tick2 = getTickCount();
 		for (int i = 0; i < verticalsources; ++i) {
-			//x = i % 4;
-			//y = (i - x) / 4;
-			//pointdist = planes[1].at<ushort>(Point(sourceMatCoords[i][1], sourceMatCoords[i][0]));
-			
-			//printf("defing roi \n");
+
 			//defines roi
 			cv::Rect roi((xSize/horizontal_steps)*horizpos, (ySize/ verticalsources)*i, (xSize/horizontal_steps), (ySize/ verticalsources));
 
 			//copies input image in roi
 			cv::Mat image_roi = planes[1](roi);
 
-			//printf("compingmean \n");
 			//computes mean over roi
 			cv::Scalar avgPixelIntensity = cv::mean(image_roi);
 
@@ -288,7 +283,6 @@ int main()
 			alSourcef(srclist[i], AL_GAIN, exp( 6.908*(1-pointdistnorm) )/1000); //should be 6.908 for normal rolloff
 		}
 		//End openAL stuff-------------------------------------------
-		//printf("\n");
 
 		horizpos++;
 

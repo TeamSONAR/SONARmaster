@@ -1,5 +1,4 @@
-﻿  stdafx.cpp
-  SONARBackEnd.cpp
+﻿  SONARBackEnd.cpp
 f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(89): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(90): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(92): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
@@ -22,6 +21,5 @@ f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend
 f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(202): warning C4101: 'yPix': unreferenced local variable
 f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(158): warning C4101: 'xdist': unreferenced local variable
 f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(156): warning C4101: 'angle': unreferenced local variable
-  LINK : F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\x64\Debug\SONARBackEnd.exe not found or not built by the last incremental link; performing full link
   SONARBackEnd.vcxproj -> F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\x64\Debug\SONARBackEnd.exe
   SONARBackEnd.vcxproj -> F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\x64\Debug\SONARBackEnd.pdb (Full PDB)
