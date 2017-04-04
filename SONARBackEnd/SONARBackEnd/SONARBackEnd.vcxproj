@@ -107,7 +107,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(OPENCV_DIR)\include;C:\Program Files %28x86%29\OpenAL\libs\Win64;C:\SONARmaster\BlenderToDepthMapDLL\BlenderToDepthMapDLL;C:\Program Files %28x86%29\OpenAL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OPENCV_DIR)\include;C:\Program Files %28x86%29\OpenAL\libs\Win64;F:\seniorproject\masterfolder\SONARmaster\BlenderToDepthMapDLL\BlenderToDepthMapDLL;C:\SONARmaster\BlenderToDepthMapDLL\BlenderToDepthMapDLL;C:\Program Files %28x86%29\OpenAL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
