@@ -116,7 +116,17 @@ void initDim() {
 	ifstream readFile;
 	
 	//readFile.open("C:\\SONARmaster\\SonarGraphicsTestProj\\dimensions.txt");
-	readFile.open("..\\..\\SonarGraphicsTestProj\\dimensions.txt");
+	readFile.open("..\\..\\..\\SonarGraphicsTestProj\\dimensions.txt");
+	if (!readFile.good())
+	{
+		readFile.close();
+		readFile.open("..\\..\\SonarGraphicsTestProj\\dimensions.txt");
+	}
+	if (!readFile.good())
+	{
+		cerr << "Bad file access";
+		exit(-1);
+	}
 	//while (readFile.good())
 		//cout << (char)readFile.get();
 	readFile >> x;
