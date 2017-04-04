@@ -25,6 +25,12 @@ using namespace std;
 int xSize = 640;
 int ySize = 480;
 
+//Audio parameters
+float freq = 120.f;
+float FreqInc = 1.3f;
+int horizontal_steps = 20;
+int StepDelay = 45;
+
 const char* al_err_str(ALenum err) {
 	switch (err) {
 		CASE_RETURN(AL_NO_ERROR);
@@ -127,9 +133,31 @@ void initDim() {
 
 }
 
+void getParamFile() {
+	ifstream readFile;
+
+	readFile.open("BackendParams.txt");
+
+	if ((readFile.rdstate() & ifstream::failbit) != 0) {
+		printf("Error opening 'BackendParams.txt'\n");
+	}
+	else {
+		readFile >> freq;
+		readFile >> FreqInc;
+		readFile >> horizontal_steps;
+		readFile >> StepDelay;
+
+		readFile.close();
+	}
+
+	printf("freq is: %2.2f, freq inc is: %2.2f\n horiz steps is %d, step delay is %d\n", freq, FreqInc, horizontal_steps, StepDelay);
+}
+
 int main()
 {
 	initDim();
+	getParamFile();
+
 	void* PointerToBuf = OpenDepthBufMapFileToRead(xSize,ySize);
 	printf("%X \n", ReadDepthMapBufFile(PointerToBuf));
 	
@@ -164,8 +192,6 @@ int main()
 	al_check_error();
 
 	/* Fill buffer with Sine-Wave */
-	float freq = 120.f;
-
 	float seconds = 1;
 	float amplitude = 0.1f;
 	float rolloff = 0.77f;
@@ -184,7 +210,7 @@ int main()
 
 		amplitude = amplitude * rolloff;
 
-		freq = freq*1.3f;
+		freq = freq*FreqInc;
 		/* Download buffer to OpenAL */
 		alBufferData(buf[q], AL_FORMAT_MONO16, samples, buf_size * 2, sample_rate);
 		al_check_error();
@@ -202,7 +228,7 @@ int main()
 	int yPix;
 	int sourceMatCoords[verticalsources];
 	float sourcePos[verticalsources];
-	int horizontal_steps = 20;
+	
 	int64 tick = 0;
 	float secondselapsed;
 	int64 tick2 = 0;
@@ -242,7 +268,7 @@ int main()
 	int keyCode = 255;
 	//while (cvWaitKey(1) < 0) {
 	while(keyCode == 255 || keyCode < 0){
-		keyCode = waitKey(45);
+		keyCode = waitKey(StepDelay);
 		//printf("key code is: %d\n", keyCode);
 		if (horizpos == horizontal_steps) { printf("new thing \n"); horizpos = 0; }
 
