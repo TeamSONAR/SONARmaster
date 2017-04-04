@@ -47,16 +47,22 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\DepthCopyScript.cs" />
+     <Compile Include="Assets\MoveCar.cs" />
      <Compile Include="Assets\Scripts\DeathOnContact.cs" />
      <Compile Include="Assets\Scripts\DespawnOnCollision.cs" />
+     <Compile Include="Assets\Scripts\DestroyAfterTime.cs" />
      <Compile Include="Assets\Scripts\GenerateLevel.cs" />
+     <Compile Include="Assets\Scripts\MoveCarBackward.cs" />
+     <Compile Include="Assets\Scripts\MoveCarForward.cs" />
      <Compile Include="Assets\Scripts\Patrol.cs" />
      <Compile Include="Assets\Scripts\PostProcessDepthGrayscale.cs" />
      <Compile Include="Assets\Scripts\RoomSpawnController.cs" />
      <Compile Include="Assets\Scripts\SoundGeneration.cs" />
+     <Compile Include="Assets\Scripts\SpawnCar.cs" />
      <Compile Include="Assets\Scripts\SpawnNextFloor.cs" />
      <Compile Include="Assets\Scripts\SpawnObject.cs" />
      <Compile Include="Assets\Scripts\WinOnEnter.cs" />
+     <Compile Include="Assets\TestingWallObj.cs" />
      <Compile Include="Assets\Wiimote\Scripts\Enums.cs" />
      <Compile Include="Assets\Wiimote\Scripts\HIDapi.cs" />
      <Compile Include="Assets\Wiimote\Scripts\Internal\ReadOnlyArray.cs" />

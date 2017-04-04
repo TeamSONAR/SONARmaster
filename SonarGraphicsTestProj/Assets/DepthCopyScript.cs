@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.IO;
 using System;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEditor;
 
@@ -34,6 +35,7 @@ public class DepthCopyScript : MonoBehaviour {
     public Material BlankMat;
 
     int cpressed = 0;
+	//int bpressed = 0;
     byte[] bytes;
     byte[] infoFile;
     System.IntPtr unmanagedPointer;
@@ -84,13 +86,15 @@ public class DepthCopyScript : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetKey("c"))
-        {
-            cpressed = 1;
-        } else
-        {
-            cpressed = 0;
-        }
+		if (Input.GetKey ("c")) {
+			cpressed = 1;
+		} else if (Input.GetKey ("b")) {
+			//bpressed = 1;
+			print (Application.dataPath);
+			cpressed = 0;
+		} else {
+			cpressed = 0;
+		}
             
     }
 
