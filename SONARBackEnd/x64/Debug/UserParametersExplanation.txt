@@ -1,0 +1,4 @@
+Line 1: freq = Starting frequency. Lowest frequency
+Line 2: freqInc = Frequency increment. How much the frequency gets multiplied by for each of the vertical steps. Highest frequency will be freq * (freqInc ^ 15)
+Line 3: Number of horizontal steps
+Line 4: Milliseconds between steps, so total loop time will be horizontal step number * milliseconds
