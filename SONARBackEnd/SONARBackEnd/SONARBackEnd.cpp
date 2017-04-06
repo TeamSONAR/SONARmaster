@@ -25,6 +25,12 @@ using namespace std;
 int xSize = 640;
 int ySize = 480;
 
+//User parameters for audio stuff
+float freq = 130.f;
+int horizontal_steps = 20;
+float freqInc = 1.3f;
+int stepDelay = 45;
+
 const char* al_err_str(ALenum err) {
 	switch (err) {
 		CASE_RETURN(AL_NO_ERROR);
@@ -133,9 +139,31 @@ void initDim() {
 
 }
 
+void readUserParamFile() {
+
+	ifstream readFile;
+
+	readFile.open("UserParameters.txt");
+	if (readFile.good())
+	{
+		readFile >> freq;
+		readFile >> freqInc;
+		readFile >> horizontal_steps;
+		readFile >> stepDelay;
+	}
+	else {
+		printf("Couldn't find user paramer file UserParameters.txt\n");
+	}
+
+	printf("freq is %3.2f, freq increment is %2.2f\n horizontal steps is %d, step delay is %d ms\n", freq, freqInc, horizontal_steps, stepDelay);
+	readFile.close();
+}
+
 int main()
 {
 	initDim();
+	readUserParamFile();
+
 	void* PointerToBuf = OpenDepthBufMapFileToRead(xSize,ySize);
 	printf("%X \n", ReadDepthMapBufFile(PointerToBuf));
 	
@@ -170,8 +198,6 @@ int main()
 	al_check_error();
 
 	/* Fill buffer with Sine-Wave */
-	float freq = 130.f;
-
 	float seconds = 1;
 	float amplitude = 0.1f;
 	float rolloff = 0.77f;
@@ -190,14 +216,13 @@ int main()
 
 		amplitude = amplitude * rolloff;
 
-		freq = freq*1.3f;
+		freq = freq*freqInc;
 		/* Download buffer to OpenAL */
 		alBufferData(buf[q], AL_FORMAT_MONO16, samples, buf_size * 2, sample_rate);
 		al_check_error();
 	}
 	
 	//Generate 16 sources
-	//int num_sources = 16;
 	ALuint *srclist;
 	srclist = new ALuint[verticalsources];
 
@@ -208,7 +233,7 @@ int main()
 	int yPix;
 	int sourceMatCoords[verticalsources];
 	float sourcePos[verticalsources];
-	int horizontal_steps = 20;
+
 	int64 tick = 0;
 	float secondselapsed;
 	int64 tick2 = 0;
@@ -218,16 +243,10 @@ int main()
 		//Vertical position
 		x = i;
 		xPix = (ySize/(verticalsources *2))+(ySize/ verticalsources)*x;
-		
-		//Horizontal position
-		//y = (i - x) / 4;
-		//yPix = 80 + (y * 160);
 
-		sourcePos[i] = -2;//y - 1.5;
-		//sourcePos[i][1] = 0;
+		sourcePos[i] = -2;
 
 		sourceMatCoords[i] = xPix;
-		//sourceMatCoords[i][1] = yPix;
 
 		alSourcei(srclist[i], AL_BUFFER, buf[i]);
 		alSourcef(srclist[i], AL_REFERENCE_DISTANCE, 1.0f);
@@ -249,7 +268,7 @@ int main()
 	int keyCode = 255;
 	// 255: 'no key' press, < 0: 'no key registered', 99: 'c' pressed
 	while(keyCode == 255 || keyCode < 0 || keyCode == 99){
-		keyCode = waitKey(45);
+		keyCode = waitKey(stepDelay);
 		// Pressed c, hide/show window
 		if (keyCode == 99)
 		{
@@ -284,18 +303,12 @@ int main()
 		//OpenAL Stuff-----------------------------------
 		tick2 = getTickCount();
 		for (int i = 0; i < verticalsources; ++i) {
-			//x = i % 4;
-			//y = (i - x) / 4;
-			//pointdist = planes[1].at<ushort>(Point(sourceMatCoords[i][1], sourceMatCoords[i][0]));
-			
-			//printf("defing roi \n");
 			//defines roi
 			cv::Rect roi((xSize/horizontal_steps)*horizpos, (ySize/ verticalsources)*i, (xSize/horizontal_steps), (ySize/ verticalsources));
 
 			//copies input image in roi
 			cv::Mat image_roi = planes[1](roi);
 
-			//printf("compingmean \n");
 			//computes mean over roi
 			cv::Scalar avgPixelIntensity = cv::mean(image_roi);
 
@@ -309,7 +322,6 @@ int main()
 			alSourcef(srclist[i], AL_GAIN, exp( 6.908*(1-pointdistnorm) )/1000); //should be 6.908 for normal rolloff
 		}
 		//End openAL stuff-------------------------------------------
-		//printf("\n");
 
 		horizpos++;
 

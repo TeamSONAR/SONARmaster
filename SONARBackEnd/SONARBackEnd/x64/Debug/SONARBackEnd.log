@@ -1,25 +1,27 @@
-﻿  SONARBackEnd.cpp
-c:\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(89): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(90): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(92): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(93): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(100): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(101): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(180): warning C4244: 'initializing': conversion from 'float' to 'std::size_t', possible loss of data
-c:\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(188): warning C4244: '=': conversion from 'float' to 'short', possible loss of data
-c:\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(195): warning C4267: 'argument': conversion from 'size_t' to 'ALsizei', possible loss of data
-c:\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(277): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(303): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-c:\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(308): warning C4244: 'argument': conversion from 'double' to 'ALfloat', possible loss of data
-c:\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(309): warning C4244: 'argument': conversion from 'double' to 'ALfloat', possible loss of data
-c:\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(316): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(140): warning C4477: 'printf' : format string '%X' requires an argument of type 'unsigned int', but variadic argument 1 has type 'void *'
-c:\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(140): warning C4313: 'printf': '%X' in format string conflicts with argument 1 of type 'void *'
-c:\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(160): warning C4101: 'pointdist': unreferenced local variable
-c:\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(163): warning C4101: 'zdist': unreferenced local variable
-c:\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(205): warning C4101: 'y': unreferenced local variable
-c:\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(208): warning C4101: 'yPix': unreferenced local variable
-c:\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(164): warning C4101: 'xdist': unreferenced local variable
-c:\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(162): warning C4101: 'angle': unreferenced local variable
-  SONARBackEnd.vcxproj -> C:\SONARmaster\SONARBackEnd\x64\Debug\SONARBackEnd.exe
-  SONARBackEnd.vcxproj -> C:\SONARmaster\SONARBackEnd\x64\Debug\SONARBackEnd.pdb (Full PDB)
+﻿  stdafx.cpp
+  SONARBackEnd.cpp
+f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(95): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(96): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(98): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(99): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(106): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(107): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(206): warning C4244: 'initializing': conversion from 'float' to 'std::size_t', possible loss of data
+f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(214): warning C4244: '=': conversion from 'float' to 'short', possible loss of data
+f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(221): warning C4267: 'argument': conversion from 'size_t' to 'ALsizei', possible loss of data
+f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(296): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(316): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(321): warning C4244: 'argument': conversion from 'double' to 'ALfloat', possible loss of data
+f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(322): warning C4244: 'argument': conversion from 'double' to 'ALfloat', possible loss of data
+f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(328): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(168): warning C4477: 'printf' : format string '%X' requires an argument of type 'unsigned int', but variadic argument 1 has type 'void *'
+f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(168): warning C4313: 'printf': '%X' in format string conflicts with argument 1 of type 'void *'
+f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(188): warning C4101: 'pointdist': unreferenced local variable
+f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(191): warning C4101: 'zdist': unreferenced local variable
+f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(230): warning C4101: 'y': unreferenced local variable
+f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(233): warning C4101: 'yPix': unreferenced local variable
+f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(192): warning C4101: 'xdist': unreferenced local variable
+f:\seniorproject\masterfolder\sonarmaster\sonarbackend\sonarbackend\sonarbackend.cpp(190): warning C4101: 'angle': unreferenced local variable
+  LINK : F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\x64\Debug\SONARBackEnd.exe not found or not built by the last incremental link; performing full link
+  SONARBackEnd.vcxproj -> F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\x64\Debug\SONARBackEnd.exe
+  SONARBackEnd.vcxproj -> F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\x64\Debug\SONARBackEnd.pdb (Full PDB)

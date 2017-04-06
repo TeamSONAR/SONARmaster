@@ -1,2 +1,7 @@
-﻿  BlenderToDepthMapDLL.vcxproj -> C:\SONARmaster\SONARBackEnd\x64\Debug\BlenderToDepthMapDLL.dll
-  BlenderToDepthMapDLL.vcxproj -> C:\SONARmaster\SONARBackEnd\x64\Debug\BlenderToDepthMapDLL.pdb (Full PDB)
+﻿  stdafx.cpp
+  dllmain.cpp
+  BlenderToDepthMapDLL.cpp
+  LINK : F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\x64\Debug\BlenderToDepthMapDLL.dll not found or not built by the last incremental link; performing full link
+     Creating library F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\x64\Debug\BlenderToDepthMapDLL.lib and object F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\x64\Debug\BlenderToDepthMapDLL.exp
+  BlenderToDepthMapDLL.vcxproj -> F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\x64\Debug\BlenderToDepthMapDLL.dll
+  BlenderToDepthMapDLL.vcxproj -> F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\x64\Debug\BlenderToDepthMapDLL.pdb (Full PDB)
