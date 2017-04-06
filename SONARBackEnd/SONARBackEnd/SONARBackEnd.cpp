@@ -10,6 +10,7 @@
 #include <iostream>
 #include <fstream>
 #include<windows.h>
+#include<direct.h>
 
 
 using namespace cv;
@@ -121,9 +122,18 @@ void initDim() {
 		readFile.close();
 		readFile.open("..\\..\\SonarGraphicsTestProj\\dimensions.txt");
 	}
+	if (!readFile.good())
+	{
+		readFile.close();
+		readFile.open("dimensions.txt");
+	}
 	while (!readFile.good())
 	{
-		cout << "Enter file location";
+		char buff[100];
+		_getcwd(buff, FILENAME_MAX);
+		std::string current_working_dir(buff);
+		cout << "loc is: " << current_working_dir << endl;
+		cout << "Enter file location" << endl;
 		string loc;
 		cin >> loc;
 		readFile.open(loc);
@@ -148,25 +158,31 @@ void readUserParamFile() {
 	testFile.close();*/
 
 	readFile.open("UserParameters.txt");
+	
+	if(!readFile.good()){
+		readFile.open("../x64/Debug/UserParameters.txt");
+		if (!readFile.good())
+		{
+			readFile.open("../SONARBackEnd/x64/Debug/UserParameters.txt");
+		}
+		while(!readFile.good()){
+			char buff[100];
+			_getcwd(buff, FILENAME_MAX);
+			std::string current_working_dir(buff);
+			cout << "loc is: " << current_working_dir << endl;
+			cout << "Enter file location" << endl;
+			string loc;
+			cin >> loc;
+			readFile.open(loc);
+		}
+	}
+
 	if (readFile.good())
 	{
 		readFile >> freq;
 		readFile >> freqInc;
 		readFile >> horizontal_steps;
 		readFile >> stepDelay;
-	}
-	else {
-		readFile.open("..\\x64\\Debug\\UserParameters.txt");
-		if (readFile.good())
-		{
-			readFile >> freq;
-			readFile >> freqInc;
-			readFile >> horizontal_steps;
-			readFile >> stepDelay;
-		}
-		else {
-			printf("Couldn't find user paramer file UserParameters.txt\n");
-		}
 	}
 
 	printf("freq is %3.2f, freq increment is %2.2f\n horizontal steps is %d, step delay is %d ms\n", freq, freqInc, horizontal_steps, stepDelay);

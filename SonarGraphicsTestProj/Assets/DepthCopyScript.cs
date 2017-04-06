@@ -90,7 +90,10 @@ public class DepthCopyScript : MonoBehaviour {
 			cpressed = 1;
 		} else if (Input.GetKey ("b")) {
 			//bpressed = 1;
-			print (Application.dataPath);
+			print ("PATH IS:" + Application.dataPath);
+			string fullPath =  Application.dataPath + "/../../SONARBackEnd/x64/Debug/SONARBackEnd.exe";
+			print (fullPath);
+			System.Diagnostics.Process.Start (fullPath);
 			cpressed = 0;
 		} else {
 			cpressed = 0;
