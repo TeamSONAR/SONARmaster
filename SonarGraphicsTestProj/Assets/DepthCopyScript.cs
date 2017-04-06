@@ -33,6 +33,8 @@ public class DepthCopyScript : MonoBehaviour {
     Texture2D tex;
     public Material mat;
     public Material BlankMat;
+	string fullPath =  Application.dataPath + "/../../SONARBackEnd/x64/Debug/SONARBackEnd.exe";
+	Process process;
 
     int cpressed = 0;
 	//int bpressed = 0;
@@ -91,9 +93,9 @@ public class DepthCopyScript : MonoBehaviour {
 		} else if (Input.GetKey ("b")) {
 			//bpressed = 1;
 			print ("PATH IS:" + Application.dataPath);
-			string fullPath =  Application.dataPath + "/../../SONARBackEnd/x64/Debug/SONARBackEnd.exe";
+
 			print (fullPath);
-			System.Diagnostics.Process.Start (fullPath);
+			process = System.Diagnostics.Process.Start (fullPath);
 			cpressed = 0;
 		} else {
 			cpressed = 0;
@@ -158,7 +160,9 @@ public class DepthCopyScript : MonoBehaviour {
 
     void OnDisable()
     {
+		
 		UnmapFile();
+		process.Kill ();
         print("unmapping");
         
     }
