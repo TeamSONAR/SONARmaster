@@ -142,6 +142,10 @@ void initDim() {
 void readUserParamFile() {
 
 	ifstream readFile;
+	/*ofstream testFile;
+	testFile.open("TEST.txt");
+	testFile << "Test";
+	testFile.close();*/
 
 	readFile.open("UserParameters.txt");
 	if (readFile.good())
@@ -152,7 +156,17 @@ void readUserParamFile() {
 		readFile >> stepDelay;
 	}
 	else {
-		printf("Couldn't find user paramer file UserParameters.txt\n");
+		readFile.open("..\\x64\\Debug\\UserParameters.txt");
+		if (readFile.good())
+		{
+			readFile >> freq;
+			readFile >> freqInc;
+			readFile >> horizontal_steps;
+			readFile >> stepDelay;
+		}
+		else {
+			printf("Couldn't find user paramer file UserParameters.txt\n");
+		}
 	}
 
 	printf("freq is %3.2f, freq increment is %2.2f\n horizontal steps is %d, step delay is %d ms\n", freq, freqInc, horizontal_steps, stepDelay);
@@ -276,7 +290,10 @@ int main()
 			printf("cpressed is: %d\n", cPressed);
 		}
 		//printf("key code is: %d\n", keyCode);
-		if (horizpos == horizontal_steps) { printf("new thing \n"); horizpos = 0; }
+		if (horizpos == horizontal_steps) {
+			//printf("new thing \n");
+			horizpos = 0;
+		}
 
 		if (horizpos == 0) {
 			memcpy(dst, ReadDepthMapBufFile(PointerToBuf), xSize * ySize * 4);
