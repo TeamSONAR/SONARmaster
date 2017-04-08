@@ -51,7 +51,44 @@ namespace ConfigGUI
         private void compile_Click(object sender, RoutedEventArgs e)
         {
             string cmd = "C:/SONARmaster/SONARBackEnd/SONARBackEnd.sln";
-            System.Diagnostics.Process.Start("msbuild", cmd);
+            System.Diagnostics.Process.Start("Msbuild.exe", cmd);
+        }
+
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Slider s = sender as Slider;
+
+            switch(s.Name)
+            {
+                case "fslider":
+                    lowFreq.Text = Convert.ToInt32(s.Value).ToString();
+                    break;
+                case "incslider":
+                    freqInc.Text = Math.Round(s.Value,2).ToString();
+                    break;
+                case "hstepslider":
+                    horizSteps.Text = Convert.ToInt32(s.Value).ToString();
+                    break;
+                case "stimeslider":
+                    stepTime.Text = Convert.ToInt32(s.Value).ToString();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void recompile_Click(object sender, RoutedEventArgs e)
+        {
+            submit_Click(sender,e);
+            Debug.WriteLine(System.IO.Directory.GetCurrentDirectory());
+            var p = new Process();
+            string dir = string.Format(@"..\..\..\..\SONARBackEnd.sln");
+           // string s = "C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\bin\Debug";
+            p.StartInfo = new ProcessStartInfo(@"C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe");
+            // p.StartInfo.Arguments = string.Format(@"C:/SONARmaster/SONARBackEnd/SONARBackEnd.sln");
+            p.StartInfo.Arguments = dir;
+            p.Start();
+           // System.Diagnostics.Process.Start("Msbuild.exe", cmd);
         }
     }
 }

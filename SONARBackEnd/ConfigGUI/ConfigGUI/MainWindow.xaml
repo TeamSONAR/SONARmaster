@@ -15,7 +15,12 @@
         <TextBox x:Name="horizSteps" HorizontalAlignment="Left" Height="23" Margin="10,180,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Label x:Name="label_Copy2" Content=" Milliseconds between steps, so total loop time will be horizontal step number * milliseconds" HorizontalAlignment="Left" Margin="10,208,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="stepTime" HorizontalAlignment="Left" Height="23" Margin="10,239,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="submit" Content="Submit" HorizontalAlignment="Left" Margin="223,291,0,0" VerticalAlignment="Top" Width="75" Click="submit_Click"/>
+        <Button x:Name="submit" Content="Submit" HorizontalAlignment="Left" Margin="151,291,0,0" VerticalAlignment="Top" Width="75" Click="submit_Click"/>
+        <Slider x:Name="fslider" HorizontalAlignment="Left" Margin="151,46,0,0" VerticalAlignment="Top" Width="147" Height="23" ValueChanged="Slider_ValueChanged" Value="200" Minimum="100" Maximum="300"/>
+        <Slider x:Name="incslider" HorizontalAlignment="Left" Margin="151,121,0,0" VerticalAlignment="Top" Width="147" Height="23" ValueChanged="Slider_ValueChanged" Maximum="3" Value="1.2"/>
+        <Slider x:Name="hstepslider" HorizontalAlignment="Left" Margin="151,180,0,0" VerticalAlignment="Top" Width="147" Height="23" ValueChanged="Slider_ValueChanged" Maximum="100" Value="20"/>
+        <Slider x:Name="stimeslider" HorizontalAlignment="Left" Margin="151,239,0,0" VerticalAlignment="Top" Width="147" Height="23" ValueChanged="Slider_ValueChanged" Maximum="100" Value="44"/>
+        <Button x:Name="recompile" Content="Recompile" HorizontalAlignment="Left" Margin="262,291,0,0" VerticalAlignment="Top" Width="75" Click="recompile_Click"/>
 
     </Grid>
 </Window>
