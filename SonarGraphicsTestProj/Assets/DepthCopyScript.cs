@@ -29,15 +29,14 @@ public class DepthCopyScript : MonoBehaviour {
 //	[DllImport("RenderingPlugin")]
 //	private static extern int GetSizeMem();
     
-
     Texture2D tex;
     public Material mat;
     public Material BlankMat;
 	string fullPath =  Application.dataPath + "/../../SONARBackEnd/x64/Debug/SONARBackEnd.exe";
 	Process process;
 
-    int cpressed = 0;
-	//int bpressed = 0;
+    bool cpressed = false;
+	bool bpressed = false;
     byte[] bytes;
     byte[] infoFile;
     System.IntPtr unmanagedPointer;
@@ -88,30 +87,30 @@ public class DepthCopyScript : MonoBehaviour {
 
     void Update()
     {
-		if (Input.GetKey ("c")) {
-			cpressed = 1;
-		} else if (Input.GetKey ("b")) {
-			//bpressed = 1;
+		if (Input.GetKeyDown ("c")) {
+			cpressed = !cpressed;
+		} 
+		if (Input.GetKeyDown ("b")) {
+			bpressed = true;
 			print ("PATH IS:" + Application.dataPath);
 
 			print (fullPath);
 			process = System.Diagnostics.Process.Start (fullPath);
-			cpressed = 0;
-		} else {
-			cpressed = 0;
-		}
+			//cpressed = 0;
+		} 
+		//else {
+			//cpressed = 0;
+		//}
             
     }
 
     void OnPostRender()
     {
         SetTimeFromUnity(Time.timeSinceLevelLoad);
-
         GL.IssuePluginEvent(GetRenderEventFunc(), 1);
     }
 
 
-	// BUG HERE!!
     void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
         //apply the depth-to-color shader
@@ -151,7 +150,7 @@ public class DepthCopyScript : MonoBehaviour {
 		//Marshal.AllocHGlobal(1);
 
         //Call this to display whatever we want on the screen (use a mat if shader is desired)
-        if(cpressed == 0)
+        if(cpressed == false)
         {
             Graphics.Blit(source, destination, BlankMat);
         }
@@ -160,10 +159,8 @@ public class DepthCopyScript : MonoBehaviour {
 
     void OnDisable()
     {
-		
 		UnmapFile();
-		process.Kill ();
+		process.Kill();
         print("unmapping");
-        
     }
 }
