@@ -13,6 +13,8 @@
 #include<direct.h>
 
 
+
+
 using namespace cv;
 using namespace std;
 
@@ -21,8 +23,15 @@ using namespace std;
 #define fovDeg 58.5
 #define PI 3.1415926535
 
+
 #define CASE_RETURN(err) case (err): return "##err"
 
+#ifdef _MSC_VER
+#    pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
+#endif
+
+
+int debug = 1;
 int xSize = 640;
 int ySize = 480;
 
@@ -62,7 +71,8 @@ void init_al() {
 	ALCcontext *ctx = NULL;
 
 	const char *defname = alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
-	std::cout << "Default device: " << defname << std::endl;
+	if(debug)
+		std::cout << "Default device: " << defname << std::endl;
 
 	dev = alcOpenDevice(defname);
 	ctx = alcCreateContext(dev, NULL);
@@ -144,7 +154,9 @@ void initDim() {
 	readFile >> x;
 	readFile >> y;
 	xSize = x; ySize = y;
-	printf("x size is: %d, y size is: %d\n", x, y);
+	if(debug) {
+		printf("x size is: %d, y size is: %d\n", x, y);
+	}
 	readFile.close();
 
 }
@@ -184,8 +196,8 @@ void readUserParamFile() {
 		readFile >> horizontal_steps;
 		readFile >> stepDelay;
 	}
-
-	printf("freq is %3.2f, freq increment is %2.2f\n horizontal steps is %d, step delay is %d ms\n", freq, freqInc, horizontal_steps, stepDelay);
+	if(debug)
+		printf("freq is %3.2f, freq increment is %2.2f\n horizontal steps is %d, step delay is %d ms\n", freq, freqInc, horizontal_steps, stepDelay);
 	readFile.close();
 }
 
@@ -195,7 +207,8 @@ int main()
 	readUserParamFile();
 
 	void* PointerToBuf = OpenDepthBufMapFileToRead(xSize,ySize);
-	printf("%X \n", ReadDepthMapBufFile(PointerToBuf));
+	if(debug)
+		printf("%X \n", ReadDepthMapBufFile(PointerToBuf));
 	
 	Mat Xmat = Mat(ySize, xSize, CV_32FC1);
 	Mat Ymat = Mat(ySize, xSize, CV_32FC1);
@@ -290,16 +303,18 @@ int main()
 
 	//-------------------------------Back to openCV stuff
 
-	namedWindow("Display window", WINDOW_AUTOSIZE);// Create a window for display.
-	imshow("Display window", planes[0]);                   // Show our image inside it.
+	//namedWindow("Display window", WINDOW_AUTOSIZE);// Create a window for display.
+	//imshow("Display window", planes[0]);                   // Show our image inside it.
 
 	int horizpos = 0;
 	bool cPressed = false;
 	int keyCode = 255;
 	// 255: 'no key' press, < 0: 'no key registered', 99: 'c' pressed
 	while(keyCode == 255 || keyCode < 0 || keyCode == 99){
-		keyCode = waitKey(stepDelay);
+		keyCode = waitKey(0);
 		// Pressed c, hide/show window
+		Sleep(stepDelay);
+
 		if (keyCode == 99)
 		{
 			cPressed = !cPressed;
@@ -316,19 +331,21 @@ int main()
 			split(image, planes);
 			Mat flipped;
 			flip(planes[0], flipped, 0);
-			if (!cPressed)
-			{
-				imshow("Display window", flipped);
-			}
-			else
-			{
-				Mat blank(1, 1, CV_8UC3, Scalar(0, 0, 0));
-				imshow("Display window", blank);
-			}
+			//if (!cPressed)
+			//{
+			//	imshow("Display window", flipped);
+			//}
+			//else
+			//{
+			//	Mat blank(1, 1, CV_8UC3, Scalar(0, 0, 0));
+			//	imshow("Display window", blank);
+			//}
 
 			secondselapsed = (getTickCount() - tick) / getTickFrequency();
-			printf("%2.4f \n", secondselapsed);
-			printf("%2.6f \n", secondselapsed2);
+			if (debug) {
+				printf("%2.4f \n", secondselapsed);
+				printf("%2.6f \n\n", secondselapsed2);
+			}
 			secondselapsed2 = 0;
 			tick = getTickCount();
 		}
@@ -359,6 +376,8 @@ int main()
 		horizpos++;
 
 		secondselapsed2 += (getTickCount() - tick2) / getTickFrequency();
+
+		
 	}
 	UnmapDepthBufFile(PointerToBuf);
 

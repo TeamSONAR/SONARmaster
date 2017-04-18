@@ -35,6 +35,7 @@ public class DepthCopyScript : MonoBehaviour {
 	string fullPath;
 	Process process;
 
+	bool processRunning = false;
     bool cpressed = false;
 	bool bpressed = false;
     byte[] bytes;
@@ -93,11 +94,15 @@ public class DepthCopyScript : MonoBehaviour {
 			cpressed = !cpressed;
 		} 
 		if (Input.GetKeyDown ("b")) {
+			if (processRunning) {
+				process.Kill ();
+			}
 			bpressed = true;
 			print ("PATH IS:" + Application.dataPath);
 
 			print (fullPath);
 			process = System.Diagnostics.Process.Start (fullPath);
+			processRunning = true;
 			//cpressed = 0;
 		} 
 		//else {

@@ -1,0 +1,9 @@
+﻿  stdafx.cpp
+  dllmain.cpp
+  BlenderToDepthMapDLL.cpp
+     Creating library C:\SONARmaster\SONARBackEnd\x64\Release\BlenderToDepthMapDLL.lib and object C:\SONARmaster\SONARBackEnd\x64\Release\BlenderToDepthMapDLL.exp
+  Generating code
+  All 10 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  BlenderToDepthMapDLL.vcxproj -> C:\SONARmaster\SONARBackEnd\x64\Release\BlenderToDepthMapDLL.dll
+  BlenderToDepthMapDLL.vcxproj -> C:\SONARmaster\SONARBackEnd\x64\Release\BlenderToDepthMapDLL.pdb (Full PDB)
