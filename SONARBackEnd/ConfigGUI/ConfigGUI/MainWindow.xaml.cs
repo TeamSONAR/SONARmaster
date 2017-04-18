@@ -39,6 +39,16 @@ namespace ConfigGUI
         private void submit_Click(object sender, RoutedEventArgs e)
         {
             System.IO.StreamWriter configFile = new System.IO.StreamWriter("../../../../x64/Debug/UserParameters.txt");
+            if(Int32.Parse(lowFreq.Text) < 0)
+            {
+                lowFreq.Text = "0";
+            }
+            else if(Int32.Parse(lowFreq.Text) > 600)
+            {
+                lowFreq.Text = "600";
+            }
+
+
             configFile.WriteLine(lowFreq.Text);
             configFile.WriteLine(freqInc.Text);
             configFile.WriteLine(horizSteps.Text);
@@ -77,18 +87,18 @@ namespace ConfigGUI
             }
         }
 
-        private void recompile_Click(object sender, RoutedEventArgs e)
-        {
-            submit_Click(sender,e);
-            Debug.WriteLine(System.IO.Directory.GetCurrentDirectory());
-            var p = new Process();
-            string dir = string.Format(@"..\..\..\..\SONARBackEnd.sln");
-           // string s = "C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\bin\Debug";
-            p.StartInfo = new ProcessStartInfo(@"C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe");
-            // p.StartInfo.Arguments = string.Format(@"C:/SONARmaster/SONARBackEnd/SONARBackEnd.sln");
-            p.StartInfo.Arguments = dir;
-            p.Start();
-           // System.Diagnostics.Process.Start("Msbuild.exe", cmd);
-        }
+        //private void recompile_Click(object sender, RoutedEventArgs e)
+        //{
+        //    submit_Click(sender,e);
+        //    Debug.WriteLine(System.IO.Directory.GetCurrentDirectory());
+        //    var p = new Process();
+        //    string dir = string.Format(@"..\..\..\..\SONARBackEnd.sln");
+        //   // string s = "C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\bin\Debug";
+        //    p.StartInfo = new ProcessStartInfo(@"C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe");
+        //    // p.StartInfo.Arguments = string.Format(@"C:/SONARmaster/SONARBackEnd/SONARBackEnd.sln");
+        //    p.StartInfo.Arguments = dir;
+        //    p.Start();
+        //   // System.Diagnostics.Process.Start("Msbuild.exe", cmd);
+        //}
     }
 }

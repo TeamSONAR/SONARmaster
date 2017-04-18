@@ -32,7 +32,7 @@ public class DepthCopyScript : MonoBehaviour {
     Texture2D tex;
     public Material mat;
     public Material BlankMat;
-	string fullPath =  Application.dataPath + "/../../SONARBackEnd/x64/Debug/SONARBackEnd.exe";
+	string fullPath;
 	Process process;
 
     bool cpressed = false;
@@ -43,6 +43,7 @@ public class DepthCopyScript : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+		
         GetComponent<Camera>().depthTextureMode = DepthTextureMode.Depth;
         tex = new Texture2D(GetComponent<Camera>().pixelWidth, GetComponent<Camera>().pixelHeight, TextureFormat.RGBA32, false);
 
@@ -57,6 +58,7 @@ public class DepthCopyScript : MonoBehaviour {
         print(System.BitConverter.ToString(infoFile));
         print(unmanagedPointer.ToString());
         print(infoFile[7].ToString());*/
+		fullPath =  Application.dataPath + "/../../SONARBackEnd/x64/Debug/SONARBackEnd.exe";
     }
 
     void OnEnable()
