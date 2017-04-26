@@ -5,7 +5,7 @@ using System.IO;
 using System;
 using System.Diagnostics;
 using UnityEngine;
-using UnityEditor;
+//using UnityEditor;
 
 //[ExecuteInEditMode]
 public class DepthCopyScript : MonoBehaviour {

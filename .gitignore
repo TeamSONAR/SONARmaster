@@ -1,6 +1,9 @@
 # User added!
 /Temp/*
 
+#Build folder
+*/Build_Data
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db

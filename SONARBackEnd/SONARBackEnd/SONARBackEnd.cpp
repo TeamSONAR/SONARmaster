@@ -306,6 +306,8 @@ int main()
 	//namedWindow("Display window", WINDOW_AUTOSIZE);// Create a window for display.
 	//imshow("Display window", planes[0]);                   // Show our image inside it.
 
+	int delay = (getTickCount() - tick) / getTickFrequency();
+	int delayTick = 0;
 	int horizpos = 0;
 	bool cPressed = false;
 	int keyCode = 255;
@@ -352,6 +354,7 @@ int main()
 		
 		//OpenAL Stuff-----------------------------------
 		tick2 = getTickCount();
+		delayTick = getTickCount();
 		for (int i = 0; i < verticalsources; ++i) {
 			//defines roi
 			cv::Rect roi((xSize/horizontal_steps)*horizpos, (ySize/ verticalsources)*i, (xSize/horizontal_steps), (ySize/ verticalsources));
@@ -374,10 +377,15 @@ int main()
 		//End openAL stuff-------------------------------------------
 
 		horizpos++;
+		/*secondselapsed2 += (getTickCount() - tick2) / getTickFrequency();
+		delay += (getTickCount() - delayTick) / getTickFrequency();
+		while (delay < 45)
+		{
+			delay += (getTickCount() - delayTick) / getTickFrequency();
+		}
+		delay = 0; 
+		delayTick = 0;*/
 
-		secondselapsed2 += (getTickCount() - tick2) / getTickFrequency();
-
-		
 	}
 	UnmapDepthBufFile(PointerToBuf);
 

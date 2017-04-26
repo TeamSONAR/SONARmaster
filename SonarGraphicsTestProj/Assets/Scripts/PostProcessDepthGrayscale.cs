@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Runtime.InteropServices;
-using UnityEditor;
+//using UnityEditor;
 //so that we can see changes we make without having to run the game
 
 [ExecuteInEditMode]
