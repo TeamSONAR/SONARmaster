@@ -35,11 +35,11 @@ int debug = 1;
 int xSize = 640;
 int ySize = 480;
 
-//User parameters for audio stuff
-float freq = 130.f;
+//User parameters for audio stuff. These are changed if the UserParameters file is successfully opened
+float freq = 130.f; //Lowest frequency
 int horizontal_steps = 20;
 float freqInc = 1.3f;
-int stepDelay = 45;
+int stepDelay = 45; //Delay between switching between horizontal steps in location
 float AudioSpreadDeg = 180;
 float AudioVolRollOff = 0.77;
 
