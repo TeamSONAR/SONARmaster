@@ -7,13 +7,28 @@ public class SpawnCoinStatic : MonoBehaviour {
 	float y; 
 	float z;
 	Vector3 pos;
-	// Use this for initialization
-	void Start () {
-		
-	}
+    public AudioClip pickupSound;
+    public AudioSource audioSource;
+    public GameObject player;
+
+    // Use this for initialization
+    void Start () {
+        audioSource = player.GetComponent<AudioSource>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
 		transform.Rotate (0,0,50*Time.deltaTime);
 	}
+
+
+    void OnTriggerEnter(Collider Other)
+    {
+        if (Other.tag == "Player")
+        {
+            audioSource.clip = pickupSound;
+            audioSource.Play();
+            Destroy(gameObject);
+        }
+    }
 }
