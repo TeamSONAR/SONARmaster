@@ -16,11 +16,7 @@ public class SpawnCoin : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		x = Random.Range (0, 5);
-		y = 1.5f;
-		z = Random.Range (0, 5);
-		pos = new Vector3 (x*10, y, z*10);
-		transform.position = pos;
+        move();
         audioSource = player.GetComponent<AudioSource>();
 	}
 	
@@ -36,7 +32,18 @@ public class SpawnCoin : MonoBehaviour {
         {
             audioSource.clip = pickupSound;
             audioSource.Play();
-            Destroy(gameObject);
+            move();
+            //Destroy(gameObject);
         }
+    }
+
+
+    void move()
+    {
+        x = Random.Range(0, 5);
+        y = 1.5f;
+        z = Random.Range(0, 5);
+        pos = new Vector3(x * 10, y, z * 10);
+        transform.position = pos;
     }
 }
