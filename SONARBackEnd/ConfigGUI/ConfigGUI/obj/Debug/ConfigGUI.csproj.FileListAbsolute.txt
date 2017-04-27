@@ -12,3 +12,17 @@ C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Debug\ConfigGUI.Properties.R
 C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Debug\ConfigGUI.csproj.GenerateResource.Cache
 C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Debug\ConfigGUI.exe
 C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Debug\ConfigGUI.pdb
+F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\bin\Debug\ConfigGUI.exe.config
+F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Debug\ConfigGUI.exe
+F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Debug\ConfigGUI.pdb
+F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\bin\Debug\ConfigGUI.exe
+F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\bin\Debug\ConfigGUI.pdb
+F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Debug\ConfigGUI.csprojResolveAssemblyReference.cache
+F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Debug\MainWindow.g.cs
+F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Debug\App.g.cs
+F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Debug\ConfigGUI_MarkupCompile.cache
+F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Debug\ConfigGUI_MarkupCompile.lref
+F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Debug\MainWindow.baml
+F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Debug\ConfigGUI.g.resources
+F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Debug\ConfigGUI.Properties.Resources.resources
+F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Debug\ConfigGUI.csproj.GenerateResource.Cache
