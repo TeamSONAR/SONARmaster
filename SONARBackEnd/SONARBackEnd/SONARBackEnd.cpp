@@ -377,7 +377,7 @@ int main()
 			pointdistnorm = float(pointdist) / 255;
 			rectangle(planes[0], Point(horizpos*(xSize / horizontal_steps), sourceMatCoords[i]), Point(horizpos*(xSize / horizontal_steps) + 3, sourceMatCoords[i] + 3), Scalar(255));
 
-			angle = PI * (StartAngle + AngleMult * (float(horizpos) / float(horizontal_steps)));
+			angle = PI * (StartAngle + AngleMult * (float(horizpos) / float(horizontal_steps-1)));
 
 			xdist = -cos(angle);
 			zdist = sin(angle);
