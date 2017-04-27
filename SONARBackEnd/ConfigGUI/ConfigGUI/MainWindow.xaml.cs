@@ -88,6 +88,7 @@ namespace ConfigGUI
             {
                 volrolloff.Text = "0.0";
             }
+            if (Double.Parse(volrolloff.Text) > 2.0)
             {
                 volrolloff.Text = "2.0";
             }
