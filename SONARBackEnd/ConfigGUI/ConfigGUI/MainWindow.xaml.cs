@@ -43,11 +43,54 @@ namespace ConfigGUI
             {
                 lowFreq.Text = "0";
             }
-            else if(Int32.Parse(lowFreq.Text) > 600)
+            if(Int32.Parse(lowFreq.Text) > 600)
             {
                 lowFreq.Text = "600";
             }
 
+            if (Double.Parse(freqInc.Text) < 0.0)
+            {
+                freqInc.Text = "0.0";
+            }
+            if (Double.Parse(freqInc.Text) > 3.0)
+            {
+                freqInc.Text = "3.0";
+            }
+
+            if (Int32.Parse(horizSteps.Text) < 0)
+            {
+                horizSteps.Text = "0";
+            }
+            if (Int32.Parse(horizSteps.Text) > 100)
+            {
+                horizSteps.Text = "100";
+            }
+
+            if (Int32.Parse(stepTime.Text) < 0)
+            {
+                stepTime.Text = "0";
+            }
+            if (Int32.Parse(stepTime.Text) > 300)
+            {
+                stepTime.Text = "100";
+            }
+
+            if (Int32.Parse(audiospread.Text) < 0)
+            {
+                audiospread.Text = "0";
+            }
+            if (Int32.Parse(audiospread.Text) > 180)
+            {
+                audiospread.Text = "100";
+            }
+
+            if (Double.Parse(volrolloff.Text) < 0.0)
+            {
+                volrolloff.Text = "0.0";
+            }
+            {
+                volrolloff.Text = "2.0";
+            }
 
             configFile.WriteLine(lowFreq.Text);
             configFile.WriteLine(freqInc.Text);
