@@ -54,6 +54,7 @@ namespace ConfigGUI
             configFile.WriteLine(horizSteps.Text);
             configFile.WriteLine(stepTime.Text);
             configFile.WriteLine(audiospread.Text);
+            configFile.WriteLine(volrolloff.Text);
             //Trace.WriteLine(lf);
             configFile.Close();
 
@@ -85,6 +86,9 @@ namespace ConfigGUI
                     break;
                 case "audiospreadslider":
                     audiospread.Text = Convert.ToInt32(s.Value).ToString();
+                    break;
+                case "volrolloffslider":
+                    volrolloff.Text = Math.Round(s.Value, 2).ToString();
                     break;
                 default:
                     break;

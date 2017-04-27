@@ -41,6 +41,7 @@ int horizontal_steps = 20;
 float freqInc = 1.3f;
 int stepDelay = 45;
 float AudioSpreadDeg = 180;
+float AudioVolRollOff = 0.77;
 
 const char* al_err_str(ALenum err) {
 	switch (err) {
@@ -197,6 +198,7 @@ void readUserParamFile() {
 		readFile >> horizontal_steps;
 		readFile >> stepDelay;
 		readFile >> AudioSpreadDeg;
+		readFile >> AudioVolRollOff;
 	}
 	if(debug)
 		printf("freq is %3.2f, freq increment is %2.2f\n horizontal steps is %d, step delay is %d ms\n", freq, freqInc, horizontal_steps, stepDelay);
@@ -247,7 +249,6 @@ int main()
 	/* Fill buffer with Sine-Wave */
 	float seconds = 1;
 	float amplitude = 0.1f;
-	float rolloff = 0.77f;
 
 	unsigned sample_rate = 22050;
 	size_t buf_size = seconds * sample_rate;
@@ -261,7 +262,7 @@ int main()
 			samples[i] = 16380 * sin((2.f*float(PI)*freq) / sample_rate * i) * amplitude;
 		}
 
-		amplitude = amplitude * rolloff;
+		amplitude = amplitude * AudioVolRollOff;
 
 		freq = freq*freqInc;
 		/* Download buffer to OpenAL */
@@ -377,7 +378,7 @@ int main()
 			pointdistnorm = float(pointdist) / 255;
 			rectangle(planes[0], Point(horizpos*(xSize / horizontal_steps), sourceMatCoords[i]), Point(horizpos*(xSize / horizontal_steps) + 3, sourceMatCoords[i] + 3), Scalar(255));
 
-			angle = PI * (StartAngle + AngleMult * (float(horizpos) / float(horizontal_steps)));
+			angle = PI * (StartAngle + AngleMult * (float(horizpos) / float(horizontal_steps-1)));
 
 			xdist = -cos(angle);
 			zdist = sin(angle);
