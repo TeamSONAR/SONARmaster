@@ -6,8 +6,8 @@ using Random = UnityEngine.Random;
 
 namespace UnityStandardAssets.Characters.FirstPerson
 {
-    [RequireComponent(typeof (CharacterController))]
-    [RequireComponent(typeof (AudioSource))]
+    [RequireComponent(typeof(CharacterController))]
+    [RequireComponent(typeof(AudioSource))]
     public class FirstPersonController : MonoBehaviour
     {
         [SerializeField] private bool m_IsWalking;
@@ -40,7 +40,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float m_StepCycle;
         private float m_NextStep;
         private bool m_Jumping;
-        private AudioSource m_AudioSource;
+        [SerializeField]  private AudioSource m_AudioSource;
 
         // Use this for initialization
         private void Start()

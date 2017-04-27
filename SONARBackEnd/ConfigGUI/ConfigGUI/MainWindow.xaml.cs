@@ -53,7 +53,6 @@ namespace ConfigGUI
             configFile.WriteLine(freqInc.Text);
             configFile.WriteLine(horizSteps.Text);
             configFile.WriteLine(stepTime.Text);
-            configFile.WriteLine(audiospread.Text);
             //Trace.WriteLine(lf);
             configFile.Close();
 
@@ -82,9 +81,6 @@ namespace ConfigGUI
                     break;
                 case "stimeslider":
                     stepTime.Text = Convert.ToInt32(s.Value).ToString();
-                    break;
-                case "audiospreadslider":
-                    audiospread.Text = Convert.ToInt32(s.Value).ToString();
                     break;
                 default:
                     break;
