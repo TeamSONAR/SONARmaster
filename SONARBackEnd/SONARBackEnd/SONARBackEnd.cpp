@@ -371,7 +371,11 @@ int main()
 			pointdistnorm = float(pointdist) / 255;
 			rectangle(planes[0], Point(horizpos*(xSize / horizontal_steps), sourceMatCoords[i]), Point(horizpos*(xSize / horizontal_steps) + 3, sourceMatCoords[i] + 3), Scalar(255));
 
-			alSource3f(srclist[i], AL_POSITION, -1.9+4*(float(horizpos)/float(horizontal_steps)), 0, 1);
+			xdist = -cos(PI * float(horizpos) / float(horizontal_steps));
+			zdist = sin(PI * float(horizpos) / float(horizontal_steps));
+
+			alSource3f(srclist[i], AL_POSITION, xdist, 0, zdist);
+
 			alSourcef(srclist[i], AL_GAIN, exp( 6.908*(1-pointdistnorm) )/1000); //should be 6.908 for normal rolloff
 		}
 		//End openAL stuff-------------------------------------------
