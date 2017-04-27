@@ -18,8 +18,12 @@ public class soundOnCollision : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        audioSource.clip = jumpSound;
-        audioSource.Play();
+
+        if (other.tag != "Coin")
+        {
+            audioSource.clip = jumpSound;
+            audioSource.Play();
+        }
 
     }
 }
