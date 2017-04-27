@@ -14,7 +14,7 @@ public class SpawnCar : MonoBehaviour {
         if (!spawnedCar)
         {
             spawnedCar = true;
-            Invoke("SpawnItem", Random.Range(2, 10));
+            Invoke("SpawnItem", Random.Range(10, 20));
         }	
 	}
 
@@ -25,5 +25,6 @@ public class SpawnCar : MonoBehaviour {
         
         GameObject createdCar = (GameObject)Instantiate(car, transform.position, transform.rotation);
         createdCar.GetComponent<MoveCar>().moveForward = carMovesForward;
+        createdCar.GetComponent<Transform>().localScale = new Vector3(1.5f, 1.5f, 1.5f);
     }
 }

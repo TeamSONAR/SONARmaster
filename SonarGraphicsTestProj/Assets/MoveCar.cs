@@ -11,11 +11,11 @@ public class MoveCar : MonoBehaviour {
     {
         if (moveForward)
         {
-            directionVector = new Vector3(.3f, 0f, 0f);
+            directionVector = new Vector3(.1f, 0f, 0f);
         }
         else
         {
-            directionVector = new Vector3(-.3f, 0f, 0f);
+            directionVector = new Vector3(-.1f, 0f, 0f);
         }
         gameObject.transform.rotation = Quaternion.LookRotation(directionVector);
     }
