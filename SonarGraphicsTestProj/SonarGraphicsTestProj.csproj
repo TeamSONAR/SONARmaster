@@ -115,6 +115,7 @@
     <Compile Include="Assets\Wiimote\Scripts\WiimoteData\WiimoteData.cs" />
     <Compile Include="Assets\Wiimote\Scripts\WiimoteManager.cs" />
     <Compile Include="Assets\Wiimotetest.cs" />
+    <Compile Include="Assets\uiScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\BlankShader.shader" />
