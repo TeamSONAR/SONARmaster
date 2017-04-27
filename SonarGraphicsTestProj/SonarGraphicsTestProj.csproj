@@ -95,6 +95,7 @@
     <Compile Include="Assets\Scripts\RoomSpawnController.cs" />
     <Compile Include="Assets\Scripts\SoundGeneration.cs" />
     <Compile Include="Assets\Scripts\SpawnCar.cs" />
+    <Compile Include="Assets\Scripts\SpawnCoin.cs" />
     <Compile Include="Assets\Scripts\SpawnNextFloor.cs" />
     <Compile Include="Assets\Scripts\SpawnObject.cs" />
     <Compile Include="Assets\Scripts\WinOnEnter.cs" />
