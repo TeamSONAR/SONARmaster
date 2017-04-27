@@ -15,7 +15,9 @@ public class PlayerController : MonoBehaviour
     private Wiimote wiimote;
     private GameObject connectWiimote;
     public Canvas wiimoteCanvas;
-    
+    FPSControllerWiimote wiiObj;
+
+
     // controller vars
     public bool useController = true;
     private float lstick_x;
@@ -25,14 +27,10 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        // use wiimote headtracking
         if(enableHeadTracking)
         {
             GetComponent<FPSControllerWiimote>().enabled = true;
-            if (!connectWiimote)
-            {
-                connectWiimote = GameObject.Find("ConnectWiimote");
-            }
+
             // disable keyboard movement scripts
             GetComponent<FirstPersonController>().enabled = false;
         }
@@ -42,6 +40,7 @@ public class PlayerController : MonoBehaviour
             GetComponent<FPSControllerWiimote>().enabled = false;
             wiimoteCanvas.enabled = false;
         } 
+
         if(useController)
         {
             characterController = GetComponent<CharacterController>();
@@ -63,11 +62,11 @@ public class PlayerController : MonoBehaviour
         }
         if(useController)
         {
-            MoveBasedOnControllerInput();
+            ControllerMovement();
         }
     }
     
-    void MoveBasedOnControllerInput()
+    void ControllerMovement()
     {
         GetControllerInput();
 
@@ -96,22 +95,4 @@ public class PlayerController : MonoBehaviour
         rstick_x = Input.GetAxis("rstick_horiz");
         rstick_y = Input.GetAxis("rstick_vert");
     }
-
-    float AnalogStickMovement(float data)
-    {
-        if (data >= 100 && data < 150)
-        {
-            return 0;
-        }
-        else if (data >= 200 && data > 150)
-        {
-            return 1;
-        }
-        else if (data < 100)
-        {
-            return -1;
-        }
-        return 0;
-    }
-
 }
