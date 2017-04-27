@@ -10,6 +10,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
     [RequireComponent(typeof (AudioSource))]
     public class FirstPersonController : MonoBehaviour
     {
+
+        public bool enableGamepad = true;
         [SerializeField] private bool m_IsWalking;
         [SerializeField] private float m_WalkSpeed;
         [SerializeField] private float m_RunSpeed;
@@ -41,6 +43,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float m_NextStep;
         private bool m_Jumping;
         private AudioSource m_AudioSource;
+
+        
 
         // Use this for initialization
         private void Start()
@@ -203,10 +207,25 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void GetInput(out float speed)
         {
+            float horizontal;
+            float vertical;
             // Read input
-            float horizontal = CrossPlatformInputManager.GetAxis("Horizontal");
-            float vertical = CrossPlatformInputManager.GetAxis("Vertical");
-
+            if (enableGamepad)
+            {
+                horizontal = CrossPlatformInputManager.GetAxis("lstick_horiz");
+                vertical = (-1)*CrossPlatformInputManager.GetAxis("lstick_vert");
+                 
+                if(Input.GetKey(KeyCode.Space))
+                {
+                    Debug.Log(horizontal + " " + vertical + "\n");
+                }
+                
+            } else
+            {
+                horizontal = CrossPlatformInputManager.GetAxis("Horizontal");
+                vertical = CrossPlatformInputManager.GetAxis("Vertical");
+            }
+              
             bool waswalking = m_IsWalking;
 
 #if !MOBILE_INPUT
@@ -235,13 +254,26 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 
         private void RotateView()
-        {
-
-			//if not wii look checkbox, do:
-            m_MouseLook.LookRotation (transform, m_Camera.transform);
-
-			//else do wii stuff
-			//m_WiiLook.rot()
+        { 
+            // Read input
+            if (enableGamepad)
+            {
+                float horizontal = CrossPlatformInputManager.GetAxis("rstick_horiz");
+                float vertical = CrossPlatformInputManager.GetAxis("rstick_vert");
+                Vector3 lookRotation = new Vector3(vertical, horizontal, 0);
+                if (lookRotation != Vector3.zero)
+                {
+                    //Debug.Log(rstick_y + ", " + rstick_x + "\n");
+                    lookRotation.x *= 3;
+                    lookRotation.y *= 2;
+                    lookRotation += new Vector3(m_Camera.transform.rotation.x, m_Camera.transform.rotation.y, 0);
+                    m_Camera.transform.Rotate(lookRotation);
+                    m_Camera.transform.rotation = Quaternion.Euler(m_Camera.transform.rotation.eulerAngles.x, m_Camera.transform.rotation.eulerAngles.y, 0); 
+                }
+            } else
+            {
+                m_MouseLook.LookRotation(transform, m_Camera.transform);
+            } 
         }
 
 
