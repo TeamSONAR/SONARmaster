@@ -4,35 +4,42 @@ using UnityStandardAssets.Characters.FirstPerson;
 using WiimoteApi;
 
 public class PlayerController : MonoBehaviour
-{
-    public Camera playerCam;
-    private CharacterController characterController;
-    private Vector3 moveDirection = Vector2.zero;
-    private float speed = 2;
-
-    // headtracking vars
-    public bool enableHeadTracking = false; 
-    private Wiimote wiimote;
-    private GameObject connectWiimote;
-    public Canvas wiimoteCanvas;
-    FPSControllerWiimote wiiObj;
-
-
+{ 
     // controller vars
     public bool useController = true;
+    public float controllerSpeed = 5;
     private float lstick_x;
     private float lstick_y;
     private float rstick_x;
     private float rstick_y;
 
+    // headtracking vars
+    public bool enableHeadTracking = false;
+    private Wiimote wiimote;
+    private GameObject connectWiimote;
+    public Canvas wiimoteCanvas;
+    FPSControllerWiimote wiiObj;
+
+    public Camera playerCam;
+    private CharacterController characterController;
+    private Vector3 moveDirection = Vector2.zero;
+    private CharacterController m_CharacterController;
+
+    public bool disableCanvas = false;
+
     void Start()
     {
-        if(enableHeadTracking)
+        m_CharacterController = GetComponent<CharacterController>();
+        if (enableHeadTracking)
         {
-            GetComponent<FPSControllerWiimote>().enabled = true;
-
-            // disable keyboard movement scripts
+            GetComponent<FPSControllerWiimote>().enabled = true; 
             GetComponent<FirstPersonController>().enabled = false;
+            if(disableCanvas)
+            {
+                wiimoteCanvas.enabled = false;
+                GetComponent<FPSControllerWiimote>().disableCanvas = true;
+            }
+                
         }
         else
         {
@@ -53,13 +60,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update()
-    {
-        if (enableHeadTracking)
-        {
-            WiimoteManager.FindWiimotes();
-            if (!WiimoteManager.HasWiimote()) { return; }
-            wiimote = WiimoteManager.Wiimotes[0];
-        }
+    { 
         if(useController)
         {
             ControllerMovement();
@@ -72,8 +73,14 @@ public class PlayerController : MonoBehaviour
 
         // walking movement
         Vector3 desiredDirection = playerCam.transform.right * lstick_x + playerCam.transform.forward * lstick_y;
-        moveDirection.x = desiredDirection.x * speed;
-        moveDirection.z = desiredDirection.z * speed;
+        moveDirection.x = desiredDirection.x * controllerSpeed;
+        moveDirection.z = desiredDirection.z * controllerSpeed;
+        // check if in air
+        if(!characterController.isGrounded)
+        {
+            moveDirection.y += Physics.gravity.y * Time.fixedDeltaTime;
+        }
+
         characterController.Move(moveDirection * Time.fixedDeltaTime);
 
         // look rotation movement

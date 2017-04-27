@@ -10,8 +10,7 @@ public class FPSControllerWiimote : MonoBehaviour
     private Wiimote wiimote;
     float[] pointer;
     Vector2 pointerPos;
-
-
+    
     // acceleration data vars  
     private MotionPlusData MPdata;
     private float yaw;
@@ -22,38 +21,32 @@ public class FPSControllerWiimote : MonoBehaviour
     private Vector3 currentRotation;
 
     public float limit = 2f;
-
-    public float walkSpeed = 5f;
-    public float runSpeed = 10f;
-    public Rigidbody player;
-    public List<bool> playerLeds;
+      
     public Camera playerCam;
     public RectTransform IR_pointer;
+    public bool disableCanvas = false;
     public bool setupCompleted { get; set; }
 
     private bool initIsPressed = false;
-    private bool isInit = false;
-    private bool isWalking = true;
-    private bool isRunning = false;
-    private Vector2 currentVelocity;
-    private CharacterController characterController;
-    private Vector3 moveDirection = Vector2.zero;
-    public float moveDirectionSpeed = 150f;
+    private bool isInit = false; 
+    private Vector2 currentVelocity;  
+    public float rotationSpeed = 150f;
 
     private Vector2 origin = Vector3.zero;
 
     void Start()
     {
-        setupCompleted = false;
-        characterController = GetComponent<CharacterController>();
+        setupCompleted = false; 
         isInit = false;
         // Wii Motion Plus takes a moment to be recognized.
         // Wait a second, then see if its activated
         WiimoteManager.FindWiimotes();
         StartCoroutine(WaitForWMP(1f));
 
-        currentRotation = startingRotation; 
+        currentRotation = startingRotation;
 
+        if (disableCanvas)
+            playerCam.GetComponent<Canvas>().enabled = false;
     }
 
     void Update()
@@ -66,9 +59,9 @@ public class FPSControllerWiimote : MonoBehaviour
             if (StartButtonSequence())
             {
 
-                wiimote.RumbleOn = true;
+                //wiimote.RumbleOn = true;
                 wiimote.SendStatusInfoRequest();
-                wiimote.RumbleOn = false;
+                //wiimote.RumbleOn = false;
                 initIsPressed = true;
                 // initialize rotation and store it. This is used to calibrate acceleration data headtracking
                 transform.rotation = Quaternion.Euler(startingRotation.x, startingRotation.y, startingRotation.z);
@@ -108,26 +101,30 @@ public class FPSControllerWiimote : MonoBehaviour
             {
                 dotCount--;
             }
-        }
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////if (dotCount < 2) { return; }
+        } 
 
         bool useAccelerationData = false;
+        if (dotCount < 2) useAccelerationData = true;
+
         Vector2 lastPointerPos = pointerPos;
         GetWiiPointerData(); 
 
         // check if wiimote pointer stopped moving
         if(lastPointerPos == pointerPos)
-        {
-            Debug.Log(lastPointerPos + "poop  " + pointerPos + " \n");
-            //useAccelerationData = true;
+        { 
+            useAccelerationData = true;
         } else
         {
             useAccelerationData = false;
         }
 
+        // Camera and accell data together arent working well
+        // so im setting it to just use accelleration data
+        useAccelerationData = true;
+
 
         // reset camera if you press backpace, or the A button on wiimote
-        if (wiimote.Button.a || Input.GetKeyDown(KeyCode.Backspace))
+        if (wiimote.Button.a || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Backspace))
         {
             currentRotation = startingRotation;
             MPdata.SetZeroValues();
@@ -147,19 +144,16 @@ public class FPSControllerWiimote : MonoBehaviour
 
             if (useAccelerationData)
             {
-                currentRotation = currentRotation + GetAccellData();
-
-                Debug.Log("SHOULD BE ROTATING " + currentRotation + " \n");
+                currentRotation = currentRotation + GetAccellData(); 
                 playerCam.transform.rotation = Quaternion.Euler(currentRotation.x, currentRotation.y, currentRotation.z); // 0's for x and z because we cant use yaw without wmp, and we dont need roll 
             } else
             {
                 // if wiimote moves enough, move camera
-                float minDist = 0f;
-                Debug.Log(pointerPos + "\n");
+                float minDist = 0f; 
                 if (Mathf.Abs(pointerPos.x - origin.x) > minDist || Mathf.Abs(pointerPos.y - origin.y) > minDist)
                 { 
                     Vector3 diff = new Vector3(pointerPos.x - origin.x, pointerPos.y - origin.y, 0);
-                    diff *= moveDirectionSpeed;
+                    diff *= rotationSpeed;
                     playerCam.transform.rotation = Quaternion.Euler(playerCam.transform.rotation.x + diff.x, playerCam.transform.rotation.y + diff.y, playerCam.transform.rotation.z + diff.z);
                 }
             }  
@@ -170,13 +164,16 @@ public class FPSControllerWiimote : MonoBehaviour
     {
         pointer = wiimote.Ir.GetPointingPosition();
         pointerPos = new Vector2((-1) * pointer[1], pointer[0]);
-        Debug.Log(pointerPos + "\n");
+        // Debug.Log(pointerPos + "\n");
+        
         //Wiimote camera movement
         if (origin == Vector2.zero)
         {
             origin = pointerPos;
-        } 
+        }
+
         // show the wiimote pointer on screen
+        if (disableCanvas) return;
         Vector2 curAnchorMin = IR_pointer.anchorMin;
         Vector2 curAnchorMax = IR_pointer.anchorMax;
         IR_pointer.anchorMin = Vector2.SmoothDamp(curAnchorMin, new Vector2(pointer[0], pointer[1]), ref currentVelocity, 0.1f, 1f, Time.deltaTime);
@@ -215,54 +212,29 @@ public class FPSControllerWiimote : MonoBehaviour
     { 
         if (wiimote == null) { return false; }
 
-        if (wiimote.current_ext == ExtensionController.NUNCHUCK) // nunchuck
-        {
-            if (wiimote.Nunchuck.c && wiimote.Nunchuck.z) return true;
-        }
-        else if (wiimote.Button.a) return true;
+        if (wiimote.Button.a) return true;
         else
         {
             if (Input.GetKeyDown(KeyCode.Space)) return true;
         }
         return false;
-    }
-
-    float AnalogStickMovement(float data)
-    {
-        if (data >= 100 && data < 150)
-        {
-            return 0;
-        }
-        else if (data >= 200 && data > 150)
-        {
-            return 1;
-        }
-        else if (data < 100)
-        {
-            return -1;
-        }
-        return 0;
-    }
-      
-
+    } 
+       
     IEnumerator WaitForWMP(float timeToWait)
-    {
-        Debug.Log("Waiting for WMP....\n");
+    { 
         wiimote = WiimoteManager.Wiimotes[0];
-        wiimote.RequestIdentifyWiiMotionPlus();
-        Debug.Log(wiimote.current_ext + "....\n");
-        yield return new WaitForSeconds(timeToWait);
-        Debug.Log("Waiting for ass....\n");
+        wiimote.RequestIdentifyWiiMotionPlus(); 
+        yield return new WaitForSeconds(timeToWait); 
         if (wiimote.wmp_attached)
         {
             wiimote.ActivateWiiMotionPlus();
             MPdata = wiimote.MotionPlus;
 
-            Debug.Log("Attached!!!!!!!!!!!!\n");
+            Debug.Log("WMP has been attached!!\n");
         }
         else
         {
-            Debug.LogError("WiiMotion Plus not attached\n");
+            Debug.LogError("WMP not attached\n");
             StartCoroutine(WaitForWMP(1f));
         }
     }
