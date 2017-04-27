@@ -272,8 +272,9 @@ int main()
 	alGenSources(verticalsources, srclist);
 	int y;
 	int x;
+
 	int xPix;
-	int yPix;
+
 	int sourceMatCoords[verticalsources];
 	float sourcePos[verticalsources];
 
@@ -306,8 +307,8 @@ int main()
 	//namedWindow("Display window", WINDOW_AUTOSIZE);// Create a window for display.
 	//imshow("Display window", planes[0]);                   // Show our image inside it.
 
-	int delay = (getTickCount() - tick) / getTickFrequency();
-	int delayTick = 0;
+	int64 delay = 0;
+	int64 delayTick = 0;
 	int horizpos = 0;
 	bool cPressed = false;
 	int keyCode = 255;
@@ -315,7 +316,8 @@ int main()
 	while(keyCode == 255 || keyCode < 0 || keyCode == 99){
 		keyCode = waitKey(0);
 		// Pressed c, hide/show window
-		Sleep(stepDelay);
+		//Sleep(stepDelay);
+		delayTick = getTickCount();
 
 		if (keyCode == 99)
 		{
@@ -354,9 +356,9 @@ int main()
 		
 		//OpenAL Stuff-----------------------------------
 		tick2 = getTickCount();
-		delayTick = getTickCount();
+		
 		for (int i = 0; i < verticalsources; ++i) {
-			//defines roi
+			//defines region of interest for this source
 			cv::Rect roi((xSize/horizontal_steps)*horizpos, (ySize/ verticalsources)*i, (xSize/horizontal_steps), (ySize/ verticalsources));
 
 			//copies input image in roi
@@ -371,21 +373,19 @@ int main()
 			pointdistnorm = float(pointdist) / 255;
 			rectangle(planes[0], Point(horizpos*(xSize / horizontal_steps), sourceMatCoords[i]), Point(horizpos*(xSize / horizontal_steps) + 3, sourceMatCoords[i] + 3), Scalar(255));
 
-			alSource3f(srclist[i], AL_POSITION, -1.9+4*(float(horizpos)/float(horizontal_steps)), 0, 1);
+			xdist = -cos(PI * float(horizpos) / float(horizontal_steps));
+			zdist = sin(PI * float(horizpos) / float(horizontal_steps));
+
+			alSource3f(srclist[i], AL_POSITION, xdist, 0, zdist);
+
 			alSourcef(srclist[i], AL_GAIN, exp( 6.908*(1-pointdistnorm) )/1000); //should be 6.908 for normal rolloff
 		}
 		//End openAL stuff-------------------------------------------
 
 		horizpos++;
-		/*secondselapsed2 += (getTickCount() - tick2) / getTickFrequency();
-		delay += (getTickCount() - delayTick) / getTickFrequency();
-		while (delay < 45)
-		{
-			delay += (getTickCount() - delayTick) / getTickFrequency();
-		}
-		delay = 0; 
-		delayTick = 0;*/
 
+		delay = ((getTickCount() - delayTick) * 1000) / getTickFrequency();
+		while (delay < stepDelay) { delay = ((getTickCount() - delayTick) * 1000) / getTickFrequency(); }
 	}
 	UnmapDepthBufFile(PointerToBuf);
 
