@@ -6,6 +6,7 @@ using System.Collections;
 
 public class FPSControllerWiimote : MonoBehaviour
 {
+    
 
     private Wiimote wiimote;
     float[] pointer;
@@ -39,6 +40,8 @@ public class FPSControllerWiimote : MonoBehaviour
 
     void Start()
     {
+        
+
         setupCompleted = false;
         isInit = false;
         // Wii Motion Plus takes a moment to be recognized.
@@ -209,7 +212,7 @@ public class FPSControllerWiimote : MonoBehaviour
         }
         else // calibrated. 
         {
-            accelVector = new Vector3(pitch * multiplier, (-1) * yaw * multiplier, 0);
+            accelVector = new Vector3(roll * multiplier, (-1) * yaw * multiplier, 0);
         }
         return accelVector;
     }

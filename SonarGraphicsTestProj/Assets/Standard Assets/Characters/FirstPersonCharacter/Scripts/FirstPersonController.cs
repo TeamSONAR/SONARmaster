@@ -10,7 +10,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
     [RequireComponent(typeof(AudioSource))]
     public class FirstPersonController : MonoBehaviour
     {
-
+        
         public bool enableGamepad = true;
         public bool enableHeadtracking = true;
         [SerializeField]
@@ -48,7 +48,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private AudioClip m_JumpSound;           // the sound played when character leaves the ground.
         [SerializeField]
         private AudioClip m_LandSound;           // the sound played when character touches back on ground.
-
+        public GameObject controlDataObj;
         public Camera m_Camera;
         private bool m_Jump;
         private float m_YRotation;
@@ -68,6 +68,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
         // Use this for initialization
         private void Start()
         {
+            
+            //enableGamepad = controlDataObj.GetComponent<GlobalControllerData>().enableGamepad;
+            //enableHeadtracking = controlDataObj.GetComponent<GlobalControllerData>().enableHeadtracking;
+
             m_CharacterController = GetComponent<CharacterController>();
             //m_Camera = Camera.main;
             m_OriginalCameraPosition = m_Camera.transform.localPosition;
@@ -80,6 +84,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_MouseLook.Init(transform, m_Camera.transform);
         }
 
+        private void OnEnable()
+        {
+            
+            //enableGamepad = controlDataObj.GetComponent<GlobalControllerData>().enableGamepad;
+            //enableHeadtracking = controlDataObj.GetComponent<GlobalControllerData>().enableHeadtracking;
+        }
 
         // Update is called once per frame
         private void Update()
@@ -118,9 +128,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void FixedUpdate()
         {
             float speed;
+
+            // 8 - toggle gamepad 9 - toggle headtracking
+            CheckForChangeControls();
             GetInput(out speed);
             // always move along the camera forward as it is the direction that it being aimed at
-            Vector3 desiredMove = transform.forward * m_Input.y + transform.right * m_Input.x;
+            Vector3 desiredMove = m_Camera.transform.forward * m_Input.y + transform.right * m_Input.x;
 
             // get a normal for the surface that is being touched to move along it
             RaycastHit hitInfo;
@@ -156,6 +169,25 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_MouseLook.UpdateCursorLock();
         }
 
+        private void CheckForChangeControls()
+        {
+            if (Input.GetKey(KeyCode.Alpha8))
+            {
+                enableGamepad = (enableGamepad) ? false : true;
+            }
+            else if (Input.GetKey(KeyCode.Alpha9))
+            {
+                enableHeadtracking = (enableHeadtracking) ? false : true;
+            }
+            else
+                return;
+
+            // global controller data object keeps track of this data and resets the script
+            controlDataObj.GetComponent<GlobalControllerData>().restartScript = true;
+            controlDataObj.GetComponent<GlobalControllerData>().enableGamepad = enableGamepad;
+            controlDataObj.GetComponent<GlobalControllerData>().enableHeadtracking = enableHeadtracking;
+
+        }
 
         private void PlayJumpSound()
         {
@@ -272,31 +304,33 @@ namespace UnityStandardAssets.Characters.FirstPerson
             // Read input
             if (enableHeadtracking)
             {
+                //Debug.Log("Should be turning\n");
                 Quaternion temp = GetComponent<FPSControllerWiimote>().GetRotation();
-                Vector3 lookRotation = new Vector3(temp.x, temp.y, temp.z);
+                Vector3 lookRotation = new Vector3(temp.x + m_Camera.transform.rotation.eulerAngles.x, temp.y + m_Camera.transform.rotation.eulerAngles.y, temp.z);
                 m_Camera.transform.Rotate(lookRotation);
                 m_Camera.transform.rotation = Quaternion.Euler(m_Camera.transform.rotation.eulerAngles.x, m_Camera.transform.rotation.eulerAngles.y, 0);
             }
-            else if (enableGamepad)
-            {
-                
+            if (enableGamepad)
+            { 
                 float horizontal = CrossPlatformInputManager.GetAxis("rstick_horiz");
                 float vertical = CrossPlatformInputManager.GetAxis("rstick_vert");
                 Vector3 lookRotation = new Vector3(vertical, horizontal, 0);
-                Debug.Log(lookRotation + "\n");
+                //Debug.Log(lookRotation + "\n");
                 if (lookRotation != Vector3.zero)
                 {
                     //Debug.Log(rstick_y + ", " + rstick_x + "\n");
                     lookRotation.x *= 3;
                     lookRotation.y *= 2;
                     lookRotation += new Vector3(m_Camera.transform.rotation.x, m_Camera.transform.rotation.y, 0);
+
                     m_Camera.transform.Rotate(lookRotation);
                     m_Camera.transform.rotation = Quaternion.Euler(m_Camera.transform.rotation.eulerAngles.x, m_Camera.transform.rotation.eulerAngles.y, 0);
+
                 }
             }
             else
             {
-                Debug.Log("Should be looking up\n");
+                Debug.Log("MouseLook\n");
                 m_MouseLook.LookRotation(transform, m_Camera.transform);
             }
         }
