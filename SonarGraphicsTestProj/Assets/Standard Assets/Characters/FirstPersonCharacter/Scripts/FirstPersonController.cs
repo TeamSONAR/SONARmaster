@@ -82,6 +82,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_Jumping = false;
             m_AudioSource = GetComponent<AudioSource>();
             m_MouseLook.Init(transform, m_Camera.transform);
+
+            if(!enableHeadtracking)
+            {
+                GetComponent<FPSControllerWiimote>().enabled = false;
+            }
         }
 
         private void OnEnable()
@@ -133,6 +138,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             CheckForChangeControls();
             GetInput(out speed);
             // always move along the camera forward as it is the direction that it being aimed at
+            //Vector3 desiredMove = transform.forward * m_Input.y + transform.right * m_Input.x;
             Vector3 desiredMove = m_Camera.transform.forward * m_Input.y + transform.right * m_Input.x;
 
             // get a normal for the surface that is being touched to move along it
@@ -242,7 +248,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             if (m_CharacterController.velocity.magnitude > 0 && m_CharacterController.isGrounded)
             {
                 m_Camera.transform.localPosition =
-                    m_HeadBob.DoHeadBob(m_CharacterController.velocity.magnitude +
+                m_HeadBob.DoHeadBob(m_CharacterController.velocity.magnitude +
                                       (speed * (m_IsWalking ? 1f : m_RunstepLenghten)));
                 newCameraPosition = m_Camera.transform.localPosition;
                 newCameraPosition.y = m_Camera.transform.localPosition.y - m_JumpBob.Offset();
@@ -330,7 +336,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
             else
             {
-                Debug.Log("MouseLook\n");
+                //Debug.Log("MouseLook\n");
                 m_MouseLook.LookRotation(transform, m_Camera.transform);
             }
         }

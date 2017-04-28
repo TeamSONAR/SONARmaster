@@ -129,8 +129,9 @@ public class FPSControllerWiimote : MonoBehaviour
         useAccelerationData = true;
 
         // reset camera if you press backpace, or the A button on wiimote
-        if (wiimote.Button.a || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Backspace))
+        if (wiimote.Button.a || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Backspace) || Input.GetAxis("x_button") < 0)
         {
+            //Debug.Log(Input.GetAxis("x_button") + "\n");
             currentRotation = startingRotation;
             MPdata.SetZeroValues();
         }
@@ -225,12 +226,10 @@ public class FPSControllerWiimote : MonoBehaviour
     bool StartButtonSequence()
     {
         if (wiimote == null) { return false; }
-
-        if (wiimote.Button.a) return true;
-        else
-        {
-            if (Input.GetKeyDown(KeyCode.Space)) return true;
-        }
+         
+        if (wiimote.Button.a || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Backspace) || Input.GetAxis("x_button") < 0)
+            return true;
+      
         return false;
     }
 
