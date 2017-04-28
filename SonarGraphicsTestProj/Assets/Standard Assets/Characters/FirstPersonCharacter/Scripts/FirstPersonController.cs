@@ -49,7 +49,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField]
         private AudioClip m_LandSound;           // the sound played when character touches back on ground.
 
-        private Camera m_Camera;
+        public Camera m_Camera;
         private bool m_Jump;
         private float m_YRotation;
         private Vector2 m_Input;
@@ -69,7 +69,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void Start()
         {
             m_CharacterController = GetComponent<CharacterController>();
-            m_Camera = Camera.main;
+            //m_Camera = Camera.main;
             m_OriginalCameraPosition = m_Camera.transform.localPosition;
             m_FovKick.Setup(m_Camera);
             m_HeadBob.Setup(m_Camera, m_StepInterval);
@@ -233,12 +233,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 horizontal = CrossPlatformInputManager.GetAxis("lstick_horiz");
                 vertical = (-1) * CrossPlatformInputManager.GetAxis("lstick_vert");
-
-                if (Input.GetKey(KeyCode.Space))
-                {
-                    Debug.Log(horizontal + " " + vertical + "\n");
-                }
-
             }
             else
             {
@@ -285,9 +279,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
             else if (enableGamepad)
             {
+                
                 float horizontal = CrossPlatformInputManager.GetAxis("rstick_horiz");
                 float vertical = CrossPlatformInputManager.GetAxis("rstick_vert");
                 Vector3 lookRotation = new Vector3(vertical, horizontal, 0);
+                Debug.Log(lookRotation + "\n");
                 if (lookRotation != Vector3.zero)
                 {
                     //Debug.Log(rstick_y + ", " + rstick_x + "\n");
@@ -300,6 +296,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
             else
             {
+                Debug.Log("Should be looking up\n");
                 m_MouseLook.LookRotation(transform, m_Camera.transform);
             }
         }
