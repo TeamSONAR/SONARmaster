@@ -311,12 +311,20 @@ namespace UnityStandardAssets.Characters.FirstPerson
             if (enableHeadtracking)
             {
                 //Debug.Log("Should be turning\n");
-                Quaternion temp = GetComponent<FPSControllerWiimote>().GetRotation();
-                Vector3 lookRotation = new Vector3(temp.x + m_Camera.transform.rotation.eulerAngles.x, temp.y + m_Camera.transform.rotation.eulerAngles.y, temp.z);
-                m_Camera.transform.Rotate(lookRotation);
-                m_Camera.transform.rotation = Quaternion.Euler(m_Camera.transform.rotation.eulerAngles.x, m_Camera.transform.rotation.eulerAngles.y, 0);
-            }
-            if (enableGamepad)
+                Vector3 temp = GetComponent<FPSControllerWiimote>().GetRotation();
+                float controllerRotation = CrossPlatformInputManager.GetAxis("rstick_horiz") * 50;
+                //Vector3 lookRotation = new Vector3(temp.x + m_Camera.transform.rotation.eulerAngles.x, temp.y + m_Camera.transform.rotation.eulerAngles.y, temp.z);
+                
+
+                // m_Camera.transform.rotation = Quaternion.Euler(m_Camera.transform.rotation.eulerAngles.x, m_Camera.transform.rotation.eulerAngles.y, 0);
+                m_Camera.transform.rotation = Quaternion.Euler(temp.x, temp.y + controllerRotation, 0);
+                if (enableGamepad)
+                {
+                //    Debug.Log(CrossPlatformInputManager.GetAxis("rstick_horiz") + "\n");
+                    //if (CrossPlatformInputManager.GetAxis("rstick_horiz") < 0)
+                    //    m_Camera.transform.rotation = Quaternion.Euler(m_Camera.transform.rotation.eulerAngles.x + 180, m_Camera.transform.rotation.eulerAngles.y, 0);
+                }
+            }else if (enableGamepad)
             { 
                 float horizontal = CrossPlatformInputManager.GetAxis("rstick_horiz");
                 float vertical = CrossPlatformInputManager.GetAxis("rstick_vert");

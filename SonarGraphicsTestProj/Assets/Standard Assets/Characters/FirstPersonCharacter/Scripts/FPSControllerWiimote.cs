@@ -35,7 +35,7 @@ public class FPSControllerWiimote : MonoBehaviour
 
     private Vector2 origin = Vector3.zero;
 
-    public Quaternion ht_rotation;
+    public Vector3 ht_rotation;
 
 
     void Start()
@@ -132,6 +132,7 @@ public class FPSControllerWiimote : MonoBehaviour
         if (wiimote.Button.a || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Backspace) || Input.GetAxis("x_button") < 0)
         {
             //Debug.Log(Input.GetAxis("x_button") + "\n");
+            startingRotation = new Vector3(0, currentRotation.y, 0);
             currentRotation = startingRotation;
             MPdata.SetZeroValues();
         }
@@ -151,7 +152,8 @@ public class FPSControllerWiimote : MonoBehaviour
             if (useAccelerationData)
             {
                 currentRotation = currentRotation + GetAccellData();
-                playerCam.transform.rotation = Quaternion.Euler(currentRotation.x, currentRotation.y, currentRotation.z); // 0's for x and z because we cant use yaw without wmp, and we dont need roll 
+                ht_rotation = currentRotation;
+                //playerCam.transform.rotation = Quaternion.Euler(currentRotation.x, currentRotation.y, currentRotation.z); // 0's for x and z because we cant use yaw without wmp, and we dont need roll 
             }
             else
             {
@@ -162,14 +164,14 @@ public class FPSControllerWiimote : MonoBehaviour
                     Vector3 diff = new Vector3(pointerPos.x - origin.x, pointerPos.y - origin.y, 0);
                     diff *= rotationSpeed;
                     // hastily added return funcion
-                    ht_rotation = Quaternion.Euler(playerCam.transform.rotation.x + diff.x, playerCam.transform.rotation.y + diff.y, playerCam.transform.rotation.z + diff.z);
+                    ht_rotation = new Vector3(playerCam.transform.rotation.x + diff.x, playerCam.transform.rotation.y + diff.y, playerCam.transform.rotation.z + diff.z);
                     //playerCam.transform.rotation = Quaternion.Euler(playerCam.transform.rotation.x + diff.x, playerCam.transform.rotation.y + diff.y, playerCam.transform.rotation.z + diff.z);
                 }
             }
         }
     }
 
-    public Quaternion GetRotation()
+    public Vector3 GetRotation()
     {
         return ht_rotation;
     }
