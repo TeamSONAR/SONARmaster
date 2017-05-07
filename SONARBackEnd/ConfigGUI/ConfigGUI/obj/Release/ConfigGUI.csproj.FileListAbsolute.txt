@@ -15,3 +15,4 @@ C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Release\ConfigGUI.exe.manife
 C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Release\ConfigGUI.application
 C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Release\ConfigGUI.exe
 C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Release\ConfigGUI.pdb
+C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Release\ConfigGUI.csprojResolveAssemblyReference.cache
