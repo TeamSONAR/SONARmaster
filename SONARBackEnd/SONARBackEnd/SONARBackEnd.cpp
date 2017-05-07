@@ -128,7 +128,12 @@ void CreateXY(Mat* Xmat, Mat* Ymat) {
 void initDim() {
 	int x; int y;
 	ifstream readFile;
-	readFile.open("..\\..\\..\\SonarGraphicsTestProj\\dimensions.txt");
+	readFile.open("./dat/dimensions.txt");
+	if (!readFile.good())
+	{
+		readFile.close();
+		readFile.open("..\\..\\..\\SonarGraphicsTestProj\\dimensions.txt");
+	}
 	if (!readFile.good())
 	{
 		readFile.close();
@@ -171,13 +176,19 @@ void readUserParamFile() {
 	testFile << "Test";
 	testFile.close();*/
 
-	readFile.open("UserParameters.txt");
+
+	readFile.open("./dat/UserParameters.txt");
+	
 	
 	if(!readFile.good()){
 		readFile.open("../x64/Debug/UserParameters.txt");
 		if (!readFile.good())
 		{
 			readFile.open("../SONARBackEnd/x64/Debug/UserParameters.txt");
+		}
+		if (!readFile.good())
+		{
+			readFile.open("UserParameters.txt");
 		}
 		while(!readFile.good()){
 			char buff[100];

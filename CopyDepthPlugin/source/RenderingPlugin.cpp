@@ -51,10 +51,19 @@ void* CreateDepthBufMapFile(int x, int y)
 #define BUF_SIZE 4 + x * y * 4
 	const char *path = ".\\..\\..\\SonarGraphicsTestProj\\Assets\\Plugins\\x86_64\\test.txt";
 	ofstream writeFile;
+	bool debug = false;
 	//writeFile.open(path);
-	writeFile.open("dimensions.txt");
-	writeFile << x << "\n" << y;
-	writeFile.close();
+	if (debug) {
+		writeFile.open("dimensions.txt");
+		writeFile << x << "\n" << y;
+		writeFile.close();
+	}
+	else {
+		writeFile.open("./BackEnd/dat/dimensions.txt");
+		writeFile << x << "\n" << y;
+		writeFile.close();
+	}
+
 	static FileMappingInfo DataStruct;
 	void *pBuf;
 

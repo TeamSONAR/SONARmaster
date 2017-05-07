@@ -26,3 +26,7 @@ F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\D
 F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Debug\ConfigGUI.g.resources
 F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Debug\ConfigGUI.Properties.Resources.resources
 F:\seniorproject\masterfolder\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Debug\ConfigGUI.csproj.GenerateResource.Cache
+C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\bin\Debug\ConfigGUI.exe.manifest
+C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\bin\Debug\ConfigGUI.application
+C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Debug\ConfigGUI.exe.manifest
+C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Debug\ConfigGUI.application

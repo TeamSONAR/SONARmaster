@@ -38,8 +38,9 @@ namespace ConfigGUI
 
         private void submit_Click(object sender, RoutedEventArgs e)
         {
-            System.IO.StreamWriter configFile = new System.IO.StreamWriter("../../../../x64/Debug/UserParameters.txt");
-            if(Int32.Parse(lowFreq.Text) < 0)
+            //System.IO.StreamWriter configFile = new System.IO.StreamWriter("../../../../x64/Debug/UserParameters.txt");
+            System.IO.StreamWriter configFile = new System.IO.StreamWriter("./UserParameters.txt");
+            if (Int32.Parse(lowFreq.Text) < 0)
             {
                 lowFreq.Text = "0";
             }

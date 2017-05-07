@@ -1,0 +1,17 @@
+C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\bin\Release\ConfigGUI.exe.config
+C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\bin\Release\ConfigGUI.exe.manifest
+C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\bin\Release\ConfigGUI.application
+C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\bin\Release\ConfigGUI.exe
+C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\bin\Release\ConfigGUI.pdb
+C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Release\MainWindow.g.cs
+C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Release\App.g.cs
+C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Release\ConfigGUI_MarkupCompile.cache
+C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Release\ConfigGUI_MarkupCompile.lref
+C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Release\MainWindow.baml
+C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Release\ConfigGUI.g.resources
+C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Release\ConfigGUI.Properties.Resources.resources
+C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Release\ConfigGUI.csproj.GenerateResource.Cache
+C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Release\ConfigGUI.exe.manifest
+C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Release\ConfigGUI.application
+C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Release\ConfigGUI.exe
+C:\SONARmaster\SONARBackEnd\ConfigGUI\ConfigGUI\obj\Release\ConfigGUI.pdb

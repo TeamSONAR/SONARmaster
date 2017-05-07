@@ -1,3 +1,14 @@
-﻿  RenderingPlugin.vcxproj -> C:\SONARmaster\CopyDepthPlugin\projects\VisualStudio2015\..\..\build\x64\Release\RenderingPlugin.dll
+﻿  RenderingPlugin.cpp
+RenderingPlugin.obj : warning LNK4197: export 'GetRenderEventFunc' specified multiple times; using first specification
+RenderingPlugin.obj : warning LNK4197: export 'UnityPluginUnload' specified multiple times; using first specification
+RenderingPlugin.obj : warning LNK4197: export 'UnityPluginLoad' specified multiple times; using first specification
+RenderingPlugin.obj : warning LNK4197: export 'SetTimeFromUnity' specified multiple times; using first specification
+     Creating library C:\SONARmaster\CopyDepthPlugin\projects\VisualStudio2015\..\..\build\x64\Release\RenderingPlugin.lib and object C:\SONARmaster\CopyDepthPlugin\projects\VisualStudio2015\..\..\build\x64\Release\RenderingPlugin.exp
+  Generating code
+  9 of 486 functions ( 1.9%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  RenderingPlugin.vcxproj -> C:\SONARmaster\CopyDepthPlugin\projects\VisualStudio2015\..\..\build\x64\Release\RenderingPlugin.dll
   RenderingPlugin.vcxproj -> C:\SONARmaster\CopyDepthPlugin\projects\VisualStudio2015\..\..\build\x64\Release\RenderingPlugin.pdb (Full PDB)
           1 file(s) copied.
