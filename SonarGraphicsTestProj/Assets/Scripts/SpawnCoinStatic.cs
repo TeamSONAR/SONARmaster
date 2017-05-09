@@ -13,6 +13,7 @@ public class SpawnCoinStatic : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+		player = GameObject.Find("FPSController 1");
         audioSource = player.GetComponent<AudioSource>();
     }
 	

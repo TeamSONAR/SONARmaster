@@ -70,7 +70,7 @@ public class DepthCopyScript : MonoBehaviour {
 			process.Kill ();
 		}
 		bpressed = true;
-		print ("PATH IS: " + Application.dataPath + "../BackEnd/SONARBackEnd.exe");
+		print ("PATH IS: " + Application.dataPath + "/../BackEnd/SONARBackEnd.exe");
 
 		print (fullPath);
 		process = System.Diagnostics.Process.Start (fullPath);

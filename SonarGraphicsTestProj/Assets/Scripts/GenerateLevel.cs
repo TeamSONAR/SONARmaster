@@ -37,7 +37,7 @@ public class GenerateLevel : MonoBehaviour
                 {
                     Vector3 W = V;
                     //W.y += 1; only for the deathblock. Not for robokyle
-                    Instantiate(Enemy, W, Quaternion.Euler(0, 90, 0));
+                   // Instantiate(Enemy, W, Quaternion.Euler(0, 90, 0));
                     adamChance = 0;
                 }
                 if (rando <= 9) //we didn't spawn adam
