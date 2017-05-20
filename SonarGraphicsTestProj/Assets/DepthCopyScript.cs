@@ -58,7 +58,7 @@ public class DepthCopyScript : MonoBehaviour {
         print("stuff");
         print(System.BitConverter.ToString(infoFile));
         print(unmanagedPointer.ToString());
-        print(infoFile[7].ToString());*/
+       // print(infoFile[7].ToString());*/
 		bool debugging = false;
 		if (debugging) {
 			fullPath = Application.dataPath + "/../../SONARBackEnd/x64/Debug/SONARBackEnd.exe";
@@ -70,11 +70,13 @@ public class DepthCopyScript : MonoBehaviour {
 			process.Kill ();
 		}
 		bpressed = true;
-		print ("PATH IS: " + Application.dataPath + "/../BackEnd/SONARBackEnd.exe");
+		print ("PATH IS: " + fullPath);
 
 		print (fullPath);
-		process = System.Diagnostics.Process.Start (fullPath);
+		process = Process.Start (fullPath);
+		//process = Process.Start (fullPath);
 		processRunning = true;
+		
 
 
     }
@@ -102,6 +104,9 @@ public class DepthCopyScript : MonoBehaviour {
 			Application.Quit();
 
 		}
+
+
+
 
         
     }
