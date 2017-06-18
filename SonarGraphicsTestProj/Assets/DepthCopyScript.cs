@@ -33,9 +33,10 @@ public class DepthCopyScript : MonoBehaviour {
     public Material mat;
     public Material BlankMat;
 	string fullPath;
-	Process process;
+	Process process = new Process();
 
 	bool processRunning = false;
+	bool didRun = false;
     bool cpressed = false;
 	bool bpressed = false;
     byte[] bytes;
@@ -59,23 +60,34 @@ public class DepthCopyScript : MonoBehaviour {
         print(System.BitConverter.ToString(infoFile));
         print(unmanagedPointer.ToString());
        // print(infoFile[7].ToString());*/
-		bool debugging = false;
+		bool debugging = true;
 		if (debugging) {
 			fullPath = Application.dataPath + "/../../SONARBackEnd/x64/Debug/SONARBackEnd.exe";
 		} else {
 			fullPath = Application.dataPath + "/../BackEnd/SONARBackEnd.exe";
 		}
 
-		if (processRunning) {
+		process.StartInfo.FileName = fullPath;
+		process.StartInfo.Arguments = "";
+		process.Start ();
+		//process = Process.Start (fullPath);
+		print ("PATH IS: " + fullPath);
+		//process = Process.Start (fullPath);
+		processRunning = true;
+		didRun = true; 
+		print ("here");
+
+		/*if (processRunning) {
 			process.Kill ();
 		}
 		bpressed = true;
 		print ("PATH IS: " + fullPath);
 
 		print (fullPath);
+        System.Threading.Thread.Sleep(1000);
 		process = Process.Start (fullPath);
 		//process = Process.Start (fullPath);
-		processRunning = true;
+		processRunning = true;*/
 		
 
 
@@ -116,6 +128,35 @@ public class DepthCopyScript : MonoBehaviour {
 		if (Input.GetKeyDown ("c")) {
 			cpressed = !cpressed;
 		} 
+
+		if (Input.GetKeyDown ("k")) {
+			//Process process = new Process();
+			process.StartInfo.FileName = fullPath;
+			process.Start ();
+			//process = Process.Start (fullPath);
+			print ("PATH IS: " + fullPath);
+			//process = Process.Start (fullPath);
+			processRunning = true;
+			didRun = true; 
+			print ("here");
+		}
+		/* if (Input.anyKey && !didRun) {
+			if (processRunning) {
+				process.Kill ();
+			}
+			bpressed = true;
+			print ("PATH IS: " + fullPath);
+
+			print (fullPath);
+			process = Process.Start (fullPath);
+			//process = Process.Start (fullPath);
+			processRunning = true;
+			didRun = true; 
+			print ("here");
+		}
+		*/
+
+
 		//if (Input.GetKeyDown ("b")) {
 			//if (processRunning) {
 			//	process.Kill ();
@@ -160,7 +201,7 @@ public class DepthCopyScript : MonoBehaviour {
 		//Copies the raw texture data to the pointer to the shared memory space provided by the DLL
 //		Marshal.Copy(bytes, 0, unmanagedPointer, bytes.Length);
 		//int x = GetSizeMem();
-		print("new size is: " + bytes.Length);
+		//print("new size is: " + bytes.Length);
 		//print ("SHMSize is: " + x);
 
 		if (Application.platform == RuntimePlatform.WindowsPlayer) {

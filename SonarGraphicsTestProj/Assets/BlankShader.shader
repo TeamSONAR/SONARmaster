@@ -1,4 +1,6 @@
-﻿Shader "Custom/BlankShader" {
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Custom/BlankShader" {
 	SubShader{
 		Tags{ "RenderType" = "Opaque" }
 
@@ -25,7 +27,7 @@
 	//Vertex Shader
 	v2f vert(appdata_base v) {
 		v2f o;
-		o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+		o.pos = UnityObjectToClipPos(v.vertex);
 		o.scrPos = ComputeScreenPos(o.pos);
 		//UNITY_TRANSFER_DEPTH(o.depth);
 		return o;
